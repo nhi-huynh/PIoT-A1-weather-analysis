@@ -11,6 +11,7 @@ class Database:
     def __init__(self, databaseName = 'VirtualSenseHat.db'):
         self.databaseName = databaseName
         self.openDatabase()
+        self.createTable()
         self.connection
         self.cursor
         
