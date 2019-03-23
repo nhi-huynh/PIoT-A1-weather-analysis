@@ -1,8 +1,6 @@
 import logging
 import sqlite3
 import sys
-import time
-from datetime import datetime
 
 logging.basicConfig(level = logging.DEBUG)
 

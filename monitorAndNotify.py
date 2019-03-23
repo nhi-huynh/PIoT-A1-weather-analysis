@@ -2,8 +2,6 @@ from virtual_sense_hat import VirtualSenseHat
 #from sense_hat import SenseHat #use this when we test on Pi
 from databaseClass import Database
 import logging
-import sqlite3
-import sys
 import time
 from datetime import datetime
 
