@@ -1,5 +1,5 @@
 from virtual_sense_hat import VirtualSenseHat
-#from sense_hat import SenseHat
+#from sense_hat import SenseHat #use this when we test on Pi
 import logging
 import sqlite3
 import sys
@@ -12,25 +12,20 @@ class Monitor:
 
     def __init__(self, databaseName = 'VirtualSenseHat.db'):
         self.databaseName = databaseName
-
         self.openDatabase()
-        
-
-        #self.createTable()
-
         self.sense = VirtualSenseHat.getSenseHat()
-        #self.sense = SenseHat.getSenseHat()
+        #self.sense = SenseHat.getSenseHat() #use this when we test on Pi
         
-    
     def readSenseHatData(self):
         self.time = datetime.now().__str__()
         self.temperature = self.sense.get_temperature()
         self.humidity = self.sense.get_humidity()
 
         if self.temperature == 0 or self.humidity == 0:
+            logging.error('Data discarded: Temperature or humidity is zero.')
             self.readSenseHatData()
         else:
-            logging.debug('\nTime: {}'.format(self.time))
+            logging.debug('Time: {}'.format(self.time))
             logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
             logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
 
@@ -38,7 +33,6 @@ class Monitor:
     def openDatabase(self):
         try:
             connection = sqlite3.connect(self.databaseName)
-            
         except Exception as e:
             logging.error('Open database failed. {}'.format(str(e)))
             sys.exit()
@@ -53,10 +47,7 @@ class Monitor:
         try:
             self.cursor.execute(command)           
         except Exception as e:
-            logging.error('''Creating table failed. 
-            Command {}.
-            Exception: {}.'''.format(command, str(e)))
-            sys.exit()
+            logging.error('''Exception: {}.'''.format(str(e)))
         else: 
             logging.debug('Table successfull created.')
             
@@ -84,9 +75,9 @@ class Monitor:
         while (True):
             self.readSenseHatData()
             self.insertEntry()   
-            time.sleep(15) 
+            logging.debug('\nWaiting for 1 minute...\n')
+            time.sleep(10)  #10s for debugging. 60s for assignment submission 
             
-
         logging.debug('Stop monitoring...\nStop writing to the database...')
         self.connection.close()
 
