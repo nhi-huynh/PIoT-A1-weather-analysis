@@ -57,7 +57,6 @@ class Monitor:
         ('{}','{}','{}')""".format(self.time, self.temperature, self.humidity)
         try:
             self.cursor.execute(command)
-        #"INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)"
         except Exception as e:
             logging.error('''Writing entry failed. 
             Command {}.
