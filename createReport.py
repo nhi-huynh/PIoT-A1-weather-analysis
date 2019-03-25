@@ -1,4 +1,4 @@
-from databaseClass import Database
+from database import Database
 import logging
 import json
 import csv
