@@ -24,17 +24,19 @@ class Report:
         self.minHumidity = self.range["min_humidity"]
         self.maxHumidity = self.range["max_humidity"]
     
-    def evaluateStatus(self, item, value, min, max, unit):
+    def evaluateStatus(self, value, min, max, unit):
         if value < min:  
-            status = item + " is below minimum ({} {})".format(min, unit)
+            different = min - value
+            status = "{}{} below minimum (Minimum is {} {})".format(different, unit, min, unit)
         elif value > max:
-            status = item + " is above maximum ({} {})".format(max, unit)
+            different = value - max
+            status = "{}{} above maximum (Maximum is {} {})".format(str(different), unit, max, unit)
         else:
             return ""
         return status
 
     def computeReportData(self):
-        for entry in self.database.readEntries():
+        for entry in self.database.readDataEntries():
             date = entry[0][:10]
             temperature = entry[1]
             humidity = entry[2]
@@ -50,8 +52,8 @@ class Report:
             logging.debug('Temperature: {0:0.1f} *C'.format(temperature))
             logging.debug('Humidity: {0:0.0f} %'.format(humidity))
 
-            temperatureStatus = self.evaluateStatus("Temperature", int(temperature), self.minTemp, self.maxTemp, "*C")
-            humidityStatus = self.evaluateStatus("Humidity", int(humidity), self.minHumidity, self.maxHumidity, "%")
+            temperatureStatus = self.evaluateStatus(int(temperature), self.minTemp, self.maxTemp, "*C")
+            humidityStatus = self.evaluateStatus(int(humidity), self.minHumidity, self.maxHumidity, "%")
 
             if temperatureStatus or humidityStatus:
                 shortStatus = "BAD"

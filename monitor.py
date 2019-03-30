@@ -42,7 +42,7 @@ class Monitor:
         #This code is for debugging only:Read SenseHat data every 5s for 10 times 
         for i in range(10):   
             self.readSenseHatData()
-            self.database.insertEntry(self.time, self.temperature, self.humidity)   
+            self.database.insertDataEntry(self.time, self.temperature, self.humidity)   
             logging.debug('Waiting for 1 minute...\n')
             #time.sleep(60)    
             
