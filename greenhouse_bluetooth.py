@@ -1,6 +1,4 @@
-# Interaction with a particular bluetooth device(s).
-# How do you handle this? What message have you sent to these devices?
-# How did you automate the script bluetooth.py?
+# How did you automate the script bluetooth.py3?
 # What is a sensible messaging scheme?
 
 # from virtual_sense_hat import VirtualSenseHat
@@ -33,19 +31,18 @@ class Greenhouse_Bluetooth:
     def send_notification_via_pushbullet(self, title, body):
         """ Sending notification via pushbullet.
             Args:
-				title (str) : Title of text.
-				body (str) : Body of text.
+               title (str) : Title of text.
+               body (str) : Body of text.
         """
-        data = { "type": "note", "title": title, "body": body }
+        data = {"type": "note", "title": title, "body": body}
 
-        response = requests.post("https://api.pushbullet.com/v2/pushes", data = json.dumps(data),
-            headers = { "Authorization": "Bearer " + ACCESS_TOKEN, "Content-Type": "application/json" })
+        response = requests.post("https://api.pushbullet.com/v2/pushes", data=json.dumps(data), headers={"Authorization": "Bearer " + ACCESS_TOKEN, "Content-Type": "application/json"})
         print("Notification sent.")
 
     # Get CPU temperature.
     def get_cpu_temp(self):
         res = os.popen("vcgencmd measure_temp").readline()
-        return float(res.replace("temp=","").replace("'C\n",""))
+        return float(res.replace("temp=", "").replace("'C\n", ""))
 
     def fixTemp(self):
         t1 = self.sense.get_temperature_from_humidity()
@@ -82,7 +79,7 @@ class Greenhouse_Bluetooth:
         elif temperatureStatus != "" and humidityStatus == "":
             sendstatus = temperatureStatus
         elif temperatureStatus == "" and humidityStatus != "":
-            sendstatus =  humidityStatus
+            sendstatus = humidityStatus
 
         nearby_devices = bluetooth.discover_devices()
         print(sendstatus)
