@@ -6,6 +6,7 @@ import time
 from datetime import datetime, timedelta
 
 DATE_FORMAT = "%Y-%m-%d"
+TIME_FORMAT = "%H:%M:%S"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 ONE_DAY_DELTA = timedelta(days = 1)
 ONE_HOUR_DELTA = timedelta(hours = 1)
@@ -20,26 +21,29 @@ class Monitor:
         self.sense = VirtualSenseHat.getSenseHat()
         #self.sense = SenseHat.getSenseHat() #use this when we test on Pi
         self.startTime = datetime.now()
+
         self.fakeTime = self.startTime
 
     def readSenseHatData(self):
-        self.time = datetime.now()
-        self.formattedTime = self.time.strftime(DATETIME_FORMAT) 
-        self.temperature = self.sense.get_temperature()
+        self.timestamp = datetime.now()
+        date = self.timestamp.date()
+        time = self.timestamp.time()
         self.humidity = self.sense.get_humidity()
 
         if self.temperature == 0 or self.humidity == 0:
             logging.error('Data discarded: Temperature or humidity is zero.')
             self.readSenseHatData()
         else:
-            logging.debug('Time: {}'.format(self.formattedTime))
+            logging.debug('Date: {}'.format(date))
+            logging.debug('Time: {}'.format(time))
             logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
             logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
        
     def readFakeSenseHatData(self):
         #### Only for debugging!
         self.fakeTime += ONE_HOUR_DELTA
-        formattedTime = self.fakeTime.strftime(DATETIME_FORMAT) 
+        date = self.fakeTime.date()
+        time = self.fakeTime.time()
         self.temperature = self.sense.get_temperature()
         self.humidity = self.sense.get_humidity()
 
@@ -47,7 +51,8 @@ class Monitor:
             logging.error('Data discarded: Temperature or humidity is zero.')
             self.readSenseHatData()
         else:
-            logging.debug('Time: {}'.format(formattedTime))
+            logging.debug('Date: {}'.format(date))
+            logging.debug('Time: {}'.format(time))
             logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
             logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
 
@@ -57,7 +62,7 @@ class Monitor:
         ###This code is for assignment submission
         while (True):   #forever loop
             self.readSenseHatData()
-            self.database.insertSenseHatData(self.time, self.temperature, self.humidity)   
+            self.database.insertSenseHatData(self.timestamp.date(), self.timestamp.time(), self.temperature, self.humidity)   
             logging.debug('\nWaiting for 1 minute...\n')
             time.sleep(60)  
 
@@ -66,7 +71,7 @@ class Monitor:
         #Then repeat that process for everyday to simulate a one-week progress
         for i in range(24*7):   
             self.readFakeSenseHatData()
-            self.database.insertSenseHatData(self.fakeTime, self.temperature, self.humidity)   
+            self.database.insertSenseHatData(self.fakeTime.date(), self.fakeTime.time(), self.temperature, self.humidity)   
             #time.sleep(1)
             logging.debug('Waiting for 1 minute...\n')
                 

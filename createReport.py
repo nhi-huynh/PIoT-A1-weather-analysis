@@ -60,9 +60,9 @@ class Report:
 
     def computeReportData(self):
         for entry in self.database.readSenseHatData():
-            date = entry[0][:10]
-            temperature = entry[1]
-            humidity = entry[2]
+            date = entry[0]
+            temperature = entry[2]
+            humidity = entry[3]
 
             temperatureStatus = ""
             humidityStatus = ""

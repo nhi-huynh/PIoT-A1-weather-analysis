@@ -1,5 +1,6 @@
 from database import Database
 from datetime import date
+
 class Notification:
     def __init__(self, databaseName = 'VirtualSenseHat.db'):
         self.databaseName = databaseName

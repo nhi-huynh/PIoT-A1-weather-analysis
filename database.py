@@ -6,6 +6,8 @@ import pandas
 
 DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+TIME_FORMAT = "%H:%M:%S"
+
 ONE_DAY_DELTA = timedelta(days = 1)
 ONE_HOUR_DELTA = timedelta(hours = 1)
 
@@ -85,7 +87,7 @@ class Database:
 
 ### Functions specifically for sensehat_data table
     def createSenseHatTable(self):
-        self.createTable('sensehat_data', 'timestamp DATETIME, temperature NUMERIC, humidity NUMERIC')
+        self.createTable('sensehat_data', 'date DATE, time TIME, temperature NUMERIC, humidity NUMERIC')
 
     # def insertSenseHatData(self, datetime, temperature, humidity):
     #     command = """INSERT INTO sensehat_data VALUES 
@@ -93,10 +95,10 @@ class Database:
     #     action = 'Writing sensehatdata'
     #     self.runCommand(command, action)
 
-    def insertSenseHatData(self, time, temperature, humidity):
+    def insertSenseHatData(self, date, time, temperature, humidity):
         
         command = """INSERT INTO sensehat_data VALUES 
-        ('{}','{}','{}')""".format(time, temperature, humidity)
+        ('{}', '{}', '{}','{}')""".format(date, time, temperature, humidity)
         action = 'Writing sensehatdata'
         self.runCommand(command, action)
 
@@ -106,6 +108,25 @@ class Database:
         entries = self.getAllValue(command, value)
         return entries
 
+    def getWeatherDataOn(self, date = datetime.now().date()):    #temperature of tomorrow    
+        """Receive a date object e.g. datetime(year, month, day). 
+        If no date received, default date is today. 
+        Return all temperature and humidity recorded and time for that day in a form of two dictionaries"""
+
+        command = """SELECT time, temperature, humidity FROM sensehat_data WHERE date = '{}'""".format(date)
+        value = "Weather data for date {}".format(date)
+        temperatureData =  self.getAllValue(command, value)
+
+        time = []
+        temperature = []
+        humidity = []
+
+        for entry in temperatureData:
+            time = entry[0]
+            temperature = entry[1]
+            humidity = entry[2]
+        
+        return time, temperature, humidity
 
 ### Functions specifically for pushbullet_data table
     def createPushbulletTable(self):
@@ -134,9 +155,9 @@ class Database:
 
     def pre_populatePushbullet(self):
         """First time just after creating the table"""
-        earliestDate = self.getValue("SELECT DATE(MIN(timestamp)) FROM sensehat_data", "Getting min date from sensehat_data")
+        earliestDate = self.getValue("SELECT DATE(MIN(date)) FROM sensehat_data", "Getting min date from sensehat_data")
         startDate = datetime.strptime(earliestDate, DATE_FORMAT)    #datetime.strptime(pandas.to_datetime(), DATE_FORMAT)
-        endDate = self.getValue("SELECT DATE(MAX(timestamp)) FROM sensehat_data", "Getting max date from sensehat_data")
+        endDate = self.getValue("SELECT DATE(MAX(date)) FROM sensehat_data", "Getting max date from sensehat_data")
         #endDate = datetime.now()
         endDate = datetime.strptime(endDate, DATE_FORMAT)
         if (startDate < endDate):
