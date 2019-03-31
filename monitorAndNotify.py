@@ -1,6 +1,6 @@
 from virtual_sense_hat import VirtualSenseHat
 # from sense_hat import SenseHat use this when we test on Pi
-from databaseClass import Database
+from database import Database
 import logging
 import time
 from datetime import datetime
@@ -42,7 +42,7 @@ class Monitor:
             logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
 
     def CheckDatabase(self):
-        cursor = mySQLconnection .cursor()
+        cursor = mySQLconnection.cursor()
         cursor.rowcount
         cursor.execute("SELECT * FROM table ORDER BY id DESC LIMIT 1")
         result = cursor.fetchone()
@@ -95,14 +95,13 @@ class Monitor:
         # debugging only:Read SenseHat data every 5s for 10 times
         for i in range(10):
             self.readSenseHatData()
-            self.database.insertEntry(self.time, self.temperature, self.humidity)
+            self.database.insertSenseHatData(self.time, self.temperature, self.humidity)
             logging.debug('Waiting for 1 minute...\n')
             # time.sleep(60)
 
+    
     def stopMonitoring(self):
         logging.debug('Stop monitoring...\nStop writing to the database...')
         self.database.closeDatabase()
 
-monitor = Monitor()
-monitor.initRange()
-monitor.startMonitoring()
+

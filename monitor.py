@@ -3,7 +3,12 @@ from virtual_sense_hat import VirtualSenseHat
 from database import Database
 import logging
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
+
+DATE_FORMAT = "%Y-%m-%d"
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+ONE_DAY_DELTA = timedelta(days = 1)
+ONE_HOUR_DELTA = timedelta(hours = 1)
 
 logging.basicConfig(level = logging.DEBUG)
 
@@ -14,9 +19,12 @@ class Monitor:
         self.database = Database(self.databaseName)
         self.sense = VirtualSenseHat.getSenseHat()
         #self.sense = SenseHat.getSenseHat() #use this when we test on Pi
-        
+        self.startTime = datetime.now()
+        self.fakeTime = self.startTime
+
     def readSenseHatData(self):
-        self.time = datetime.now().__str__()
+        self.time = datetime.now()
+        self.formattedTime = self.time.strftime(DATETIME_FORMAT) 
         self.temperature = self.sense.get_temperature()
         self.humidity = self.sense.get_humidity()
 
@@ -24,28 +32,49 @@ class Monitor:
             logging.error('Data discarded: Temperature or humidity is zero.')
             self.readSenseHatData()
         else:
-            logging.debug('Time: {}'.format(self.time))
+            logging.debug('Time: {}'.format(self.formattedTime))
             logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
             logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
        
+    def readFakeSenseHatData(self):
+        #### Only for debugging!
+        self.fakeTime += ONE_HOUR_DELTA
+        formattedTime = self.fakeTime.strftime(DATETIME_FORMAT) 
+        self.temperature = self.sense.get_temperature()
+        self.humidity = self.sense.get_humidity()
+
+        if self.temperature == 0 or self.humidity == 0:
+            logging.error('Data discarded: Temperature or humidity is zero.')
+            self.readSenseHatData()
+        else:
+            logging.debug('Time: {}'.format(formattedTime))
+            logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
+            logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
 
     def startMonitoring(self):
         logging.debug('Start monitoring...')
 
-        #This code is for assignment submission
-        # while (True):   #forever loop
-        #     self.readSenseHatData()
-        #     self.database.insertEntry(self.time, self.temperature, self.humidity)   
-        #     logging.debug('\nWaiting for 1 minute...\n')
-        #     time.sleep(60)  
-
-        #This code is for debugging only:Read SenseHat data every 5s for 10 times 
-        for i in range(10):   
+        ###This code is for assignment submission
+        while (True):   #forever loop
             self.readSenseHatData()
-            self.database.insertDataEntry(self.time, self.temperature, self.humidity)   
+            self.database.insertSenseHatData(self.time, self.temperature, self.humidity)   
+            logging.debug('\nWaiting for 1 minute...\n')
+            time.sleep(60)  
+
+    def debugMonitoring(self):
+        #This code is for debugging only:Read SenseHat data every 5s for 10 times 
+        #Then repeat that process for everyday to simulate a one-week progress
+        for i in range(24*7):   
+            self.readFakeSenseHatData()
+            self.database.insertSenseHatData(self.fakeTime, self.temperature, self.humidity)   
+            #time.sleep(1)
             logging.debug('Waiting for 1 minute...\n')
-            #time.sleep(60)    
+                
             
     def stopMonitoring(self):
         logging.debug('Stop monitoring...\nStop writing to the database...')
         self.database.closeDatabase()
+
+monitor = Monitor()
+#monitor.startMonitoring()
+monitor.debugMonitoring()
