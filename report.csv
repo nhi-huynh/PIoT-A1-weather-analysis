@@ -1,11 +1,11 @@
 Date,Status
 2019-03-31,OK
 2019-03-31,OK
-2019-03-31,BAD,3*C below minimum (Minimum is 20 *C)
-2019-03-31,BAD,5*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,2.11*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,4.45*C below minimum (Minimum is 20 *C)
 2019-03-31,OK
 2019-03-31,OK
-2019-03-31,BAD,4*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,3.85*C below minimum (Minimum is 20 *C)
 2019-03-31,OK
 2019-03-31,OK
 2019-03-31,OK

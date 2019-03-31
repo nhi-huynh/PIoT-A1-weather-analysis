@@ -1,7 +1,7 @@
 # Have you handled file related exceptions in your code?
 # What type of data validation rules have you implemented? : consider the user input angle.
 
-from databaseClass import Database
+from database import Database
 import logging
 import json
 import csv
@@ -31,7 +31,7 @@ class Report:
 
     def __init__(self):
         self.configFilename = 'config.json'
-        self.reportFilename = getReportName()
+        self.reportFilename = 'report.csv'  #self.getReportName()
         self.databaseName = 'VirtualSenseHat.db'
 
         self.database = Database(self.databaseName)
@@ -44,19 +44,15 @@ class Report:
         self.minTemp = self.range["min_temperature"]
         self.maxTemp = self.range["max_temperature"]
         self.minHumidity = self.range["min_humidity"]
-        self.maxHumidity = self.range["max_humidity"]
-    
-    def evaluateStatus(self, value, min, max, unit):
-        if value < min:  
-            different = min - value
-            status = "{}{} below minimum (Minimum is {} {})".format(different, unit, min, unit)
+        self.maxHumidity = self.range["max_humidity"]         
 
-    def evaluateStatus(self, item, value, min, max, unit):
+    def evaluateStatus(self, value, min, max, unit):
         if value < min:
-            status = item + " is below minimum ({} {})".format(min, unit)
+            different = round(min - value, 2) 
+            status = "{}{} below minimum (Minimum is {} {})".format(str(different), unit, min, unit)
 
         elif value > max:
-            different = value - max
+            different = round(value - max, 2)
             status = "{}{} above maximum (Maximum is {} {})".format(str(different), unit, max, unit)
         else:
             return ""
@@ -79,8 +75,8 @@ class Report:
             logging.debug('Temperature: {0:0.1f} *C'.format(temperature))
             logging.debug('Humidity: {0:0.0f} %'.format(humidity))
 
-            temperatureStatus = self.evaluateStatus(int(temperature), self.minTemp, self.maxTemp, "*C")
-            humidityStatus = self.evaluateStatus(int(humidity), self.minHumidity, self.maxHumidity, "%")
+            temperatureStatus = self.evaluateStatus(float(temperature), self.minTemp, self.maxTemp, "*C")
+            humidityStatus = self.evaluateStatus(float(humidity), self.minHumidity, self.maxHumidity, "%")
 
             if temperatureStatus or humidityStatus:
                 shortStatus = "BAD"
