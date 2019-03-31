@@ -22,7 +22,7 @@ class VirtualSenseHat:
     def get_temperature(self, min = 1000, max = 3000):
         return random.randint(min, max) / 100
 
-    def get_humidity(self, min = 5000, max = 6000):
+    def get_humidity(self, min = 4000, max = 7000):
         return random.randint(min, max) / 100
 
     def show_message(self, text_string,

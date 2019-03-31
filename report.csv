@@ -1,11 +1,313 @@
 Date,Status
-2019-03-31,OK
-2019-03-31,OK
-2019-03-31,BAD,2.11*C below minimum (Minimum is 20 *C)
-2019-03-31,BAD,4.45*C below minimum (Minimum is 20 *C)
-2019-03-31,OK
-2019-03-31,OK
-2019-03-31,BAD,3.85*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,7.45*C below minimum (Minimum is 20 *C)
 2019-03-31,OK
 2019-03-31,OK
 2019-03-31,OK
+2019-03-31,BAD,1.36*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,6.23*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,3.09*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,4.31*C below minimum (Minimum is 20 *C)
+2019-03-31,OK
+2019-04-01,BAD,7.49*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,2.98*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,0.66*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,9.37*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,5.54*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,1.19*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,9.2*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,6.16*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,BAD,6.65*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,2.09*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,BAD,9.01*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,5.58*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,9.28*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,7.56*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,2.02*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,1.39*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,BAD,6.81*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,BAD,2.36*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,5.79*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,4.46*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,7.32*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,BAD,0.51*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,5.07*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,4.99*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,BAD,1.52*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,BAD,6.42*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,BAD,3.5*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,BAD,5.38*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,1.55*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,BAD,3.33*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,6.67*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,BAD,3.36*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,0.02*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,BAD,0.81*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,BAD,7.35*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,BAD,8.38*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,4.53*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,OK
+2019-04-04,BAD,4.51*C below minimum (Minimum is 20 *C)
+2019-04-04,BAD,4.17*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,BAD,6.06*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,BAD,7.03*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,8.68*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,2.32*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,6.57*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,0.23*C below minimum (Minimum is 20 *C)
+2019-04-04,BAD,0.29*C below minimum (Minimum is 20 *C)
+2019-04-04,BAD,9.23*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,6.88*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,3.0*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,BAD,5.48*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,6.38*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,BAD,0.21*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,3.19*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,8.36*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,BAD,3.57*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,BAD,5.65*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,BAD,3.67*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,BAD,0.32*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,6.33*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-06,BAD,2.08*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,3.25*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,9.94*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,2.72*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,OK
+2019-04-06,OK
+2019-04-06,BAD,5.55*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,4.21*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,9.09*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,BAD,4.52*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,0.92*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,BAD,8.14*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,OK
+2019-04-06,BAD,1.17*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,3.8*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,7.35*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,OK
+2019-04-06,OK
+2019-04-06,BAD,2.75*C below minimum (Minimum is 20 *C)
+2019-04-07,BAD,1.82*C below minimum (Minimum is 20 *C)
+2019-04-07,OK
+2019-04-07,BAD,6.88*C below minimum (Minimum is 20 *C)
+2019-04-07,BAD,2.93*C below minimum (Minimum is 20 *C)
+2019-04-07,OK
+2019-04-07,OK
+2019-04-07,OK
+2019-04-07,BAD,3.57*C below minimum (Minimum is 20 *C)
+2019-04-07,OK
+2019-04-07,BAD,3.68*C below minimum (Minimum is 20 *C)
+2019-04-07,OK
+2019-04-07,OK
+2019-04-07,BAD,1.91*C below minimum (Minimum is 20 *C)
+2019-04-07,BAD,7.88*C below minimum (Minimum is 20 *C)
+2019-04-07,OK
+2019-03-31,OK
+2019-03-31,BAD,9.05*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,8.81*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,0.39*C below minimum (Minimum is 20 *C)
+2019-03-31,BAD,2.36*C below minimum (Minimum is 20 *C)
+2019-03-31,OK
+2019-03-31,OK
+2019-03-31,OK
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,8.07*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,3.41*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,4.72*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,7.92*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,5.4*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,BAD,3.91*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,9.71*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,OK
+2019-04-01,BAD,2.11*C below minimum (Minimum is 20 *C)
+2019-04-01,BAD,2.86*C below minimum (Minimum is 20 *C)
+2019-04-01,OK
+2019-04-02,BAD,6.97*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,8.99*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,BAD,7.62*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,BAD,2.04*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,2.32*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,BAD,2.88*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,BAD,0.04*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,5.17*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,BAD,7.3*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,6.18*C below minimum (Minimum is 20 *C)
+2019-04-02,OK
+2019-04-02,OK
+2019-04-02,BAD,8.94*C below minimum (Minimum is 20 *C)
+2019-04-02,BAD,2.9*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,9.88*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,7.73*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,3.38*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,7.93*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,BAD,6.33*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,1.52*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,7.61*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,3.9*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,8.04*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,4.79*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,BAD,1.59*C below minimum (Minimum is 20 *C)
+2019-04-03,BAD,4.33*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,BAD,9.45*C below minimum (Minimum is 20 *C)
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,OK
+2019-04-03,OK
+2019-04-04,BAD,9.61*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,0.94*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,8.02*C below minimum (Minimum is 20 *C)
+2019-04-04,BAD,8.09*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,1.29*C below minimum (Minimum is 20 *C)
+2019-04-04,BAD,9.02*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,BAD,4.89*C below minimum (Minimum is 20 *C)
+2019-04-04,BAD,5.48*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,5.65*C below minimum (Minimum is 20 *C)
+2019-04-04,BAD,2.05*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,OK
+2019-04-04,BAD,7.11*C below minimum (Minimum is 20 *C)
+2019-04-04,OK
+2019-04-04,BAD,0.62*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,BAD,4.9*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,BAD,8.4*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,6.94*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,BAD,1.17*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,BAD,3.04*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,BAD,0.13*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,4.24*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-05,OK
+2019-04-05,BAD,3.99*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,9.86*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,9.15*C below minimum (Minimum is 20 *C)
+2019-04-05,BAD,7.57*C below minimum (Minimum is 20 *C)
+2019-04-05,OK
+2019-04-06,OK
+2019-04-06,OK
+2019-04-06,BAD,2.44*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,5.7*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,6.0*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,8.5*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,BAD,9.54*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,3.69*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,OK
+2019-04-06,BAD,1.07*C below minimum (Minimum is 20 *C)
+2019-04-06,BAD,4.58*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
+2019-04-06,BAD,3.04*C below minimum (Minimum is 20 *C)
+2019-04-06,OK
