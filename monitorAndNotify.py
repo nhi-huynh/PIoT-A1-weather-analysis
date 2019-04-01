@@ -4,6 +4,7 @@ from database import Database
 import logging
 import json
 import time
+import sqlite3
 from datetime import datetime, timedelta
 from pushbullet import Pushbullet
 
@@ -24,8 +25,8 @@ class Monitor:
         self.databaseName = databaseName
         self.database = Database(self.databaseName)
 
-        # self.pushDatabaseName = 'PushNotification.db'
-        # self.pushdatabase = Database(self.pushDatabaseName)
+        self.connection = sqlite3.connect(databaseName)
+        self.cursor = self.connection.cursor()
         self.configFilename = 'config.json'
         self.sense = VirtualSenseHat.getSenseHat()
         # self.sense = SenseHat.getSenseHat() #use this when we test on Pi
@@ -44,19 +45,13 @@ class Monitor:
 
     def readSenseHatData(self):
         self.timestamp = datetime.now()
-        date = self.timestamp.date()
+        self.date = self.timestamp.date()
         time = self.timestamp.time()
         self.temperature = self.sense.get_temperature()
         self.humidity = self.sense.get_humidity()
 
-        if self.temperature == 0 or self.humidity == 0:
-            # logging.error('Data discarded: Temperature or humidity is zero.')
+        if self.temperature == 0 or self.humidity <= 0:
             self.readSenseHatData()
-        # else:
-            # logging.debug('Date: {}'.format(date))
-            # logging.debug('Time: {}'.format(time))
-            # logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
-            # logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
 
     def readFakeSenseHatData(self):
         # Only for debugging!!!!!!!!
@@ -76,13 +71,17 @@ class Monitor:
             logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
 
     def CheckDatabase(self):
-        self.database.re_populatePushbullet()   # call this everytime
-        hasSent = self.database.hasSentNotification(self.timestamp.date())  # check if notification is sent for today yet
-        print(hasSent)
-        if hasSent is 0:
-			return False
+        self.cursor.execute("SELECT * FROM pushbullet_data ORDER BY date DESC LIMIT 1")
+        result = self.cursor.fetchone()[0]
+        print(result)
+        strdate = self.date.strftime(DATE_FORMAT)
+        print(strdate)
+        if result == strdate:
+            print(True)
+            return True
         else:
-			return True
+            print(False)
+            return False
 
     def send_notification_via_pushbullet(self, title, body):
         """ Sending notification via pushbullet.
@@ -105,7 +104,6 @@ class Monitor:
         return status
 
     def startMonitoring(self):
-        self.database.pre_populatePushbullet()
         logging.debug('Start monitoring...')
 
         # This code is for assignment submission
@@ -113,7 +111,6 @@ class Monitor:
             self.readSenseHatData()
             self.database.insertSenseHatData(self.timestamp.date(), self.timestamp.time(), self.temperature, self.humidity)
             if self.CheckDatabase() is False:
-                print("is false now to check and send data")
                 sendstatus = "All Good"
                 temperatureStatus = self.evaluateStatus("Temperature", int(self.temperature), self.minTemp, self.maxTemp, "*C")
                 humidityStatus = self.evaluateStatus("Humidity", int(self.humidity), self.minHumidity, self.maxHumidity, "%")
@@ -126,11 +123,10 @@ class Monitor:
                 elif temperatureStatus == "" and humidityStatus != "":
                     sendstatus = humidityStatus
 
-                body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(temperature, humidity, sendstatus)
-                print (self.pb.devices)
+                body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(self.temperature, self.humidity, sendstatus)
                 printDevice = self.pb.devices[2]
+                self.database.insertPushbulletData()
                 push = printDevice.push_note("Weather Update", body)
-                self.database.updateSentStatus()
 
             logging.debug('\nWaiting for 1 minute...\n')
             time.sleep(60)
