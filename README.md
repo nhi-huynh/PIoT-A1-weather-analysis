@@ -16,8 +16,6 @@ PartA:
   Get the Cron job working - script not running on boot.
   SQL Injection attack.
   validation required before inserting data into the database.
-  Pushbullet check daily message database.
-  Pushbullet notification.
   
 PartB:
   handled file related exceptions.
