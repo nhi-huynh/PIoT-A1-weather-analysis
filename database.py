@@ -96,12 +96,6 @@ class Database:
     def createSenseHatTable(self):
         self.createTable('sensehat_data', 'date DATE, time TIME, temperature NUMERIC, humidity NUMERIC')
 
-    # def insertSenseHatData(self, datetime, temperature, humidity):
-    #     command = """INSERT INTO sensehat_data VALUES 
-    #     (DATETIME('now', 'localtime'),'{}','{}')""".format(temperature, humidity)
-    #     action = 'Writing sensehatdata'
-    #     self.runCommand(command, action)
-
     def insertSenseHatData(self, date, time, temperature, humidity):
         
         command = """INSERT INTO sensehat_data VALUES 
@@ -138,86 +132,14 @@ class Database:
         return time, temperature, humidity
 
 ### Functions specifically for pushbullet_data table
-    def createPushbulletTable(self):
-        self.createTable('pushbullet_data', 'date DATETIME, has_sent_notification integer')
-
-    def populatePushbulletData(self, startDate, endDate, defaultValue = 0):
-        """
-        Populating Pushbullet data to database starting on startDate and ending on endDate
-        """
-
-        # formattedStartDate = startDate.strftime(DATE_FORMAT)
-        # formattedEndDate = endDate.strftime(DATE_FORMAT)
-
-        logging.debug("Populating Pushbullet data from {} to {}.".format(startDate, endDate))
-
-        date = startDate
-        command = """INSERT INTO pushbullet_data VALUES ('{}', '{}')""".format(date, 0)
-
-        while date <= endDate:     
-            formattedDate = datetime.strftime(date, DATE_FORMAT)      
-            logging.debug("Date: " + formattedDate)
-
-            command = """INSERT INTO pushbullet_data VALUES ('{}', '{}')""".format(formattedDate, defaultValue)
-            action = 'Writing pushbullet data'
-
-            self.runCommand(command, action)
-            date += ONE_DAY_DELTA
-
-    def pre_populatePushbullet(self):
-        """
-        First time just after creating the table
-        """
-        earliestDate = self.getValue("SELECT DATE(MIN(date)) FROM sensehat_data", "Getting min date from sensehat_data")
-        startDate = datetime.strptime(earliestDate, DATE_FORMAT)    #datetime.strptime(pandas.to_datetime(), DATE_FORMAT)
-        endDate = self.getValue("SELECT DATE(MAX(date)) FROM sensehat_data", "Getting max date from sensehat_data")
-        #endDate = datetime.now()
-        endDate = datetime.strptime(endDate, DATE_FORMAT)
-        if (startDate < endDate):
-            self.populatePushbulletData(startDate, endDate)
-        
-    def re_populatePushbullet(self):
-        """
-        Every time after the first time populating pushbullet_data table
-        """
-        latestDate = self.getValue("SELECT DATE(MAX(date)) FROM pushbullet_data", "Getting max date from pushbullet_data")
-        if latestDate is not None:
-            startDate = datetime.strptime(latestDate, DATE_FORMAT)  
-            endDate = datetime.now()
-            if (startDate <= endDate):
-                self.populatePushbulletData(startDate, endDate)
-        
-    def insertPushbulletData(self, date):
-        command = """INSERT INTO pushbullet_data VALUES 
-        (DATE('now', 'localtime'), '{}')""".format(0)
+    def insertPushbulletData(self, date = datetime.now()):
+        command = """INSERT INTO pushbullet_data VALUES (DATE('now'))"""
         action = "Inserting Pushbullet data"
         self.runCommand(command, action)
 
-    def hasSentNotification(self, date = datetime.now()):
-        """
-        Receive a date object e.g. datetime(year, month, day). 
-        If no date received, default date is today. 
-        Return how many notification has sent for that day
-        """
-
-        formattedDate = date.strftime(DATE_FORMAT)
-        command = """SELECT has_sent_notification FROM pushbullet_data WHERE date = '{}'""".format(formattedDate)
-        value = "Notification(s) sent for date {}".format(formattedDate)
-        num_notification_sent = self.getValue(command, value)
-        return num_notification_sent
-
-    def updateSentStatus(self, date = datetime.now()):
-        formattedDate = date.strftime(DATE_FORMAT)
-        command = """UPDATE pushbullet_data 
-        SET has_sent_notification = 1 
-        WHERE date = '{}'""".format(formattedDate)
-        action = 'Updating notification status for date {}'.format(formattedDate)
+    def createPushbulletTable(self):
+        self.createTable('pushbullet_data', 'date DATETIME')
+        command = """INSERT INTO pushbullet_data VALUES (DATE('date'))"""
+        action = "Inserting Pushbullet data"
         self.runCommand(command, action)
-
-
-
-    
-
-
-
-
+		
