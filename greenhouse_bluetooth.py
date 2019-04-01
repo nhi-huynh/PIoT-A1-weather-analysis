@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # How did you automate the script bluetooth.py3?
 # What is a sensible messaging scheme?
 
@@ -82,7 +83,6 @@ class Greenhouse_Bluetooth:
             sendstatus = humidityStatus
 
         nearby_devices = bluetooth.discover_devices()
-        print(sendstatus)
         for macAddress in nearby_devices:
             print("Found device with mac-address: " + macAddress)
             body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(temperature, humidity, sendstatus)
