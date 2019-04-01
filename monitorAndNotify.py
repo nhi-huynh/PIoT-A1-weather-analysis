@@ -2,8 +2,16 @@ from virtual_sense_hat import VirtualSenseHat
 # from sense_hat import SenseHat use this when we test on Pi
 from database import Database
 import logging
+import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
+from pushbullet import Pushbullet
+
+DATE_FORMAT = "%Y-%m-%d"
+TIME_FORMAT = "%H:%M:%S"
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+ONE_DAY_DELTA = timedelta(days=1)
+ONE_HOUR_DELTA = timedelta(hours=1)
 
 logging.basicConfig(level=logging.DEBUG)
 ACCESS_TOKEN = "o.SED5fMSZb6RoIOAUX2tJtko1HoseOVbq"
@@ -12,12 +20,18 @@ ACCESS_TOKEN = "o.SED5fMSZb6RoIOAUX2tJtko1HoseOVbq"
 class Monitor:
 
     def __init__(self, databaseName='VirtualSenseHat.db'):
+        self.pb = Pushbullet(ACCESS_TOKEN)
         self.databaseName = databaseName
-        self.pushDatabaseName = 'PushNotification.db'
-        self.configFilename = 'config.json'
         self.database = Database(self.databaseName)
+
+        # self.pushDatabaseName = 'PushNotification.db'
+        # self.pushdatabase = Database(self.pushDatabaseName)
+        self.configFilename = 'config.json'
         self.sense = VirtualSenseHat.getSenseHat()
         # self.sense = SenseHat.getSenseHat() #use this when we test on Pi
+        self.startTime = datetime.now()
+
+        self.fakeTime = self.startTime
 
     def initRange(self):
         with open(self.configFilename, "r") as file:
@@ -29,7 +43,26 @@ class Monitor:
         self.maxHumidity = self.range["max_humidity"]
 
     def readSenseHatData(self):
-        self.time = datetime.now().__str__()
+        self.timestamp = datetime.now()
+        date = self.timestamp.date()
+        time = self.timestamp.time()
+        self.temperature = self.sense.get_temperature()
+        self.humidity = self.sense.get_humidity()
+
+        if self.temperature == 0 or self.humidity == 0:
+            # logging.error('Data discarded: Temperature or humidity is zero.')
+            self.readSenseHatData()
+        # else:
+            # logging.debug('Date: {}'.format(date))
+            # logging.debug('Time: {}'.format(time))
+            # logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
+            # logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
+
+    def readFakeSenseHatData(self):
+        # Only for debugging!!!!!!!!
+        self.fakeTime += ONE_HOUR_DELTA
+        date = self.fakeTime.date()
+        time = self.fakeTime.time()
         self.temperature = self.sense.get_temperature()
         self.humidity = self.sense.get_humidity()
 
@@ -37,15 +70,19 @@ class Monitor:
             logging.error('Data discarded: Temperature or humidity is zero.')
             self.readSenseHatData()
         else:
-            logging.debug('Time: {}'.format(self.time))
+            logging.debug('Date: {}'.format(date))
+            logging.debug('Time: {}'.format(time))
             logging.debug('Temperature: {0:0.1f} *C'.format(self.temperature))
             logging.debug('Humidity: {0:0.0f}%'.format(self.humidity))
 
     def CheckDatabase(self):
-        cursor = mySQLconnection.cursor()
-        cursor.rowcount
-        cursor.execute("SELECT * FROM table ORDER BY id DESC LIMIT 1")
-        result = cursor.fetchone()
+        self.database.re_populatePushbullet()   # call this everytime
+        hasSent = self.database.hasSentNotification(self.timestamp.date())  # check if notification is sent for today yet
+        print(hasSent)
+        if hasSent is 0:
+			return False
+        else:
+			return True
 
     def send_notification_via_pushbullet(self, title, body):
         """ Sending notification via pushbullet.
@@ -68,40 +105,50 @@ class Monitor:
         return status
 
     def startMonitoring(self):
+        self.database.pre_populatePushbullet()
         logging.debug('Start monitoring...')
 
         # This code is for assignment submission
-        # while (True): forever loop
-        # self.readSenseHatData()
-        # self.database.insertEntry(self.time, self.temperature, self.humidity)
-
-        # if self.CheckDatabase() == False:
-        # sendstatus = "All Good"
-        # temperatureStatus = self.evaluateStatus("Temperature", int(self.temperature), self.minTemp, self.maxTemp, "*C")
-        # humidityStatus = self.evaluateStatus("Humidity", int(self.humidity), self.minHumidity, self.maxHumidity, "%")
-        # if temperatureStatus == "" and humidityStatus == "":
-            # sendstatus = "All Good"
-        # elif temperatureStatus != "" and humidityStatus != "":
-            # sendstatus = temperatureStatus + " and " + humidityStatus
-        # elif temperatureStatus != "" and humidityStatus == "":
-            # sendstatus = temperatureStatus
-        # elif temperatureStatus == "" and humidityStatus != "":
-            # sendstatus = humidityStatus
-            # send_notification_via_pushbullet("Weather Update", notification)
-
-        # logging.debug('\nWaiting for 1 minute...\n')
-        # time.sleep(60)
-
-        # debugging only:Read SenseHat data every 5s for 10 times
-        for i in range(10):
+        while (True):  # forever loop
             self.readSenseHatData()
-            self.database.insertSenseHatData(self.time, self.temperature, self.humidity)
-            logging.debug('Waiting for 1 minute...\n')
-            # time.sleep(60)
+            self.database.insertSenseHatData(self.timestamp.date(), self.timestamp.time(), self.temperature, self.humidity)
+            if self.CheckDatabase() is False:
+                print("is false now to check and send data")
+                sendstatus = "All Good"
+                temperatureStatus = self.evaluateStatus("Temperature", int(self.temperature), self.minTemp, self.maxTemp, "*C")
+                humidityStatus = self.evaluateStatus("Humidity", int(self.humidity), self.minHumidity, self.maxHumidity, "%")
+                if temperatureStatus == "" and humidityStatus == "":
+                    sendstatus = "All Good"
+                elif temperatureStatus != "" and humidityStatus != "":
+                    sendstatus = temperatureStatus + " and " + humidityStatus
+                elif temperatureStatus != "" and humidityStatus == "":
+                    sendstatus = temperatureStatus
+                elif temperatureStatus == "" and humidityStatus != "":
+                    sendstatus = humidityStatus
 
-    
+                body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(temperature, humidity, sendstatus)
+                print (self.pb.devices)
+                printDevice = self.pb.devices[2]
+                push = printDevice.push_note("Weather Update", body)
+                self.database.updateSentStatus()
+
+            logging.debug('\nWaiting for 1 minute...\n')
+            time.sleep(60)
+
+    def debugMonitoring(self):
+        # This code is for debugging only:Read SenseHat data every 5s for 10 times
+        # Then repeat that process for everyday to simulate a one-week progress
+        for i in range(24*7):
+            self.readFakeSenseHatData()
+            self.database.insertSenseHatData(self.fakeTime.date(), self.fakeTime.time(), self.temperature, self.humidity)
+            # time.sleep(1)
+            logging.debug('Waiting for 1 minute...\n')
+
     def stopMonitoring(self):
         logging.debug('Stop monitoring...\nStop writing to the database...')
         self.database.closeDatabase()
 
-
+monitor = Monitor()
+monitor.initRange()
+monitor.startMonitoring()
+# monitor.debugMonitoring()
