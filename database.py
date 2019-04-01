@@ -2,7 +2,6 @@ import logging
 import sqlite3
 import sys
 from datetime import datetime, timedelta
-import pandas
 
 DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
