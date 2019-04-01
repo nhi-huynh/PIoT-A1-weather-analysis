@@ -36,7 +36,9 @@ class Database:
             self.cursor = connection.cursor()
 
     def runCommand(self, command, action):
-        """Run a SQLite database command"""
+        """
+        Run a SQLite database command
+        """
         try:
             self.cursor.execute(command)
         except Exception as e:
@@ -49,7 +51,9 @@ class Database:
             logging.debug('{} successful.'.format(action))
     
     def getValue(self, command, value):
-        """Get a value from the database and return the result"""
+        """
+        Get a value from the database and return the result
+        """
         try:
             result = self.cursor.execute(command).fetchone()[0]
         except Exception as e:
@@ -62,7 +66,9 @@ class Database:
             return result
 
     def getAllValue(self, command, value):
-        """Get a value from the database and return the result"""
+        """
+        Get a value from the database and return the result
+        """
         try:
             result = self.cursor.execute(command)
         except Exception as e:
@@ -75,7 +81,9 @@ class Database:
             return result
     
     def createTable(self, tableName, columns):
-        """Create a table in the database"""
+        """
+        Create a table in the database
+        """
         command = """CREATE TABLE IF NOT EXISTS {} ({})""".format(tableName, columns)
         action = "Creating {}".format(tableName)
         self.runCommand(command, action)
@@ -109,9 +117,11 @@ class Database:
         return entries
 
     def getWeatherDataOn(self, date = datetime.now().date()):    #temperature of tomorrow    
-        """Receive a date object e.g. datetime(year, month, day). 
+        """
+        Receive a date object e.g. datetime(year, month, day). 
         If no date received, default date is today. 
-        Return all temperature and humidity recorded and time for that day in a form of two dictionaries"""
+        Return all temperature and humidity recorded and time for that day in a form of two dictionaries
+        """
 
         command = """SELECT time, temperature, humidity FROM sensehat_data WHERE date = '{}'""".format(date)
         value = "Weather data for date {}".format(date)
@@ -133,7 +143,9 @@ class Database:
         self.createTable('pushbullet_data', 'date DATETIME, has_sent_notification integer')
 
     def populatePushbulletData(self, startDate, endDate, defaultValue = 0):
-        """Populating Pushbullet data to database starting on startDate and ending on endDate"""
+        """
+        Populating Pushbullet data to database starting on startDate and ending on endDate
+        """
 
         # formattedStartDate = startDate.strftime(DATE_FORMAT)
         # formattedEndDate = endDate.strftime(DATE_FORMAT)
@@ -154,7 +166,9 @@ class Database:
             date += ONE_DAY_DELTA
 
     def pre_populatePushbullet(self):
-        """First time just after creating the table"""
+        """
+        First time just after creating the table
+        """
         earliestDate = self.getValue("SELECT DATE(MIN(date)) FROM sensehat_data", "Getting min date from sensehat_data")
         startDate = datetime.strptime(earliestDate, DATE_FORMAT)    #datetime.strptime(pandas.to_datetime(), DATE_FORMAT)
         endDate = self.getValue("SELECT DATE(MAX(date)) FROM sensehat_data", "Getting max date from sensehat_data")
@@ -164,8 +178,12 @@ class Database:
             self.populatePushbulletData(startDate, endDate)
         
     def re_populatePushbullet(self):
-        """Every time after the first time populating pushbullet_data table"""
+        """
+        Every time after the first time populating pushbullet_data table
+        """
         latestDate = self.getValue("SELECT DATE(MAX(date)) FROM pushbullet_data", "Getting max date from pushbullet_data")
+        if latestDate is None:
+            pass 
         startDate = datetime.strptime(latestDate, DATE_FORMAT)  
         endDate = datetime.now()
         if (startDate <= endDate):
@@ -178,9 +196,11 @@ class Database:
         self.runCommand(command, action)
 
     def hasSentNotification(self, date = datetime.now()):
-        """Receive a date object e.g. datetime(year, month, day). 
+        """
+        Receive a date object e.g. datetime(year, month, day). 
         If no date received, default date is today. 
-        Return how many notification has sent for that day"""
+        Return how many notification has sent for that day
+        """
 
         formattedDate = date.strftime(DATE_FORMAT)
         command = """SELECT has_sent_notification FROM pushbullet_data WHERE date = '{}'""".format(formattedDate)
