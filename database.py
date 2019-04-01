@@ -182,12 +182,11 @@ class Database:
         Every time after the first time populating pushbullet_data table
         """
         latestDate = self.getValue("SELECT DATE(MAX(date)) FROM pushbullet_data", "Getting max date from pushbullet_data")
-        if latestDate is None:
-            pass 
-        startDate = datetime.strptime(latestDate, DATE_FORMAT)  
-        endDate = datetime.now()
-        if (startDate <= endDate):
-            self.populatePushbulletData(startDate, endDate)
+        if latestDate is not None:
+            startDate = datetime.strptime(latestDate, DATE_FORMAT)  
+            endDate = datetime.now()
+            if (startDate <= endDate):
+                self.populatePushbulletData(startDate, endDate)
         
     def insertPushbulletData(self, date):
         command = """INSERT INTO pushbullet_data VALUES 
