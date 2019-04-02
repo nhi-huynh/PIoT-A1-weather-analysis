@@ -9,24 +9,22 @@ This assignment.....
 
 Left to do:
 
-  Finish Readme info section.
-  Pep8 check all code.
+  (Claire) Finish Readme info section.
+  (Claire) Pep8 check all code.
+  (Claire) Get the Cron job working - script not running on boot.
   
 PartA:
-  Get the Cron job working - script not running on boot.
   SQL Injection attack.
+  Adjust UTC time to LocalTime.
+  (Claire) Adjust temperature to account for cpu heat and speed.
   validation required before inserting data into the database.
   
 PartB:
   handled file related exceptions.
   data validation rules.
   
-PartC:
-  Get the Cron job working - script not running on boot.
-  Set up hourly cron.
-  
 PartD:
   Create visuals from 2 different libraries.
   Clearly labelled, detailed representations will receive higher marks.
-  research for questions.
-  Analytic.py file to answer questions.
+  (Claire) Research for questions.
+  (Claire) Analytic.py file to answer questions.
