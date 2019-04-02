@@ -14,7 +14,7 @@ Left to do:
   (Claire) Get the Cron job working - script not running on boot.
   
 PartA:
-  (Claire can expand on Nhi's code for this) -SQL Injection attack. 
+  SQL Injection attack. 
   (Claire) Adjust temperature to account for cpu heat and speed.
   (Nhi) - validation required before inserting data into the database.
   
