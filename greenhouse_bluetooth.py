@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# How did you automate the script bluetooth.py3?
-# What is a sensible messaging scheme?
 
 # from virtual_sense_hat import VirtualSenseHat
 from sense_hat import SenseHat
@@ -8,9 +6,12 @@ import requests
 import json
 import os
 import bluetooth
+import time
 from pushbullet import Pushbullet
+from datetime import datetime, timedelta
 
 ACCESS_TOKEN = "o.SED5fMSZb6RoIOAUX2tJtko1HoseOVbq"
+TIME_FORMAT = "%H:%M:%S"
 
 
 class Greenhouse_Bluetooth:
@@ -66,27 +67,44 @@ class Greenhouse_Bluetooth:
         return status
 
     def main(self):
-        humidity = self.sense.get_humidity()
-        print("Humidity {:.2f}".format(humidity))
-        temperature = self.fixTemp()
-        print("Temperature {:.2f}".format(temperature))
-        sendstatus = "All Good"
-        temperatureStatus = self.evaluateStatus("Temperature", int(temperature), self.minTemp, self.maxTemp, "*C")
-        humidityStatus = self.evaluateStatus("Humidity", int(humidity), self.minHumidity, self.maxHumidity, "%")
-        if temperatureStatus == "" and humidityStatus == "":
+        time1 = datetime.now()
+        time3 = datetime.now()
+        print("Starting up please wait a moment...")
+        while True:
+            time.sleep(60)
+            time1 = datetime.now()
+            humidity = self.sense.get_humidity()
+            print("Humidity {:.2f}".format(humidity))
+            temperature = self.fixTemp()
+            print("Temperature {:.2f}".format(temperature))
             sendstatus = "All Good"
-        elif temperatureStatus != "" and humidityStatus != "":
-            sendstatus = temperatureStatus + " and " + humidityStatus
-        elif temperatureStatus != "" and humidityStatus == "":
-            sendstatus = temperatureStatus
-        elif temperatureStatus == "" and humidityStatus != "":
-            sendstatus = humidityStatus
+            temperatureStatus = self.evaluateStatus("Temperature", int(temperature), self.minTemp, self.maxTemp, "*C")
+            humidityStatus = self.evaluateStatus("Humidity", int(humidity), self.minHumidity, self.maxHumidity, "%")
+            if temperatureStatus == "" and humidityStatus == "":
+                sendstatus = "All Good"
+            elif temperatureStatus != "" and humidityStatus != "":
+                sendstatus = temperatureStatus + " and " + humidityStatus
+            elif temperatureStatus != "" and humidityStatus == "":
+                sendstatus = temperatureStatus
+            elif temperatureStatus == "" and humidityStatus != "":
+                sendstatus = humidityStatus
 
-        nearby_devices = bluetooth.discover_devices()
-        for macAddress in nearby_devices:
-            print("Found device with mac-address: " + macAddress)
-            body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(temperature, humidity, sendstatus)
-            self.send_notification_via_pushbullet("Update", body)
+            nearby_devices = bluetooth.discover_devices()
+            minute1 = time1.strftime("%M")
+            time_1 = int(minute1)
+            for macAddress in nearby_devices:
+                print("Found device with mac-address: " + macAddress)
+                minute3 = time3.strftime("%M")
+                time_3 = int(minute3)
+                print(time_3)
+                print(time_1)
+                print(time_1 - time_3)
+                # change this value from 2 to 60 for hourly notifications
+                if (time_1 - time_3) >= 2:
+                    body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(temperature, humidity, sendstatus)
+                    self.send_notification_via_pushbullet("Update", body)
+                    time3 = datetime.now()
+            print("Waiting for 1 minute...")
 
 # Execute program
 Greenhouse_Bluetooth = Greenhouse_Bluetooth()
