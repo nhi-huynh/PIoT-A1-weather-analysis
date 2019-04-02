@@ -11,18 +11,17 @@ Left to do:
 
   Finish Readme info section.
   Pep8 check all code.
+  Get the Cron job working - script not running on boot.
   
 PartA:
-  Get the Cron job working - script not running on boot.
   SQL Injection attack.
+  Adjust UTC time to LocalTime
+  Adjust temperature to account for cpu heat and speed
   validation required before inserting data into the database.
   
 PartB:
   handled file related exceptions.
   data validation rules.
-  
-PartC:
-  Get the Cron job working - script not starting on boot.
   
 PartD:
   Create visuals from 2 different libraries.
