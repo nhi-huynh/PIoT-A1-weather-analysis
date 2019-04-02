@@ -2,7 +2,6 @@ import logging
 import sqlite3
 import sys
 from datetime import datetime, timedelta
-import pandas as pd
 
 DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -110,7 +109,6 @@ class Database:
         entries = self.getAllValue(command, value)
         return entries
 
-### Functions neccessary for analytics.py
     def getWeatherDataOn(self, date = datetime.now().date()):    #temperature of tomorrow    
         """
         Receive a date object e.g. datetime(year, month, day). 
@@ -120,27 +118,24 @@ class Database:
 
         command = """SELECT time, temperature, humidity FROM sensehat_data WHERE date = '{}'""".format(date)
         value = "Weather data for date {}".format(date)
-        weatherData =  self.getAllValue(command, value)
+        temperatureData =  self.getAllValue(command, value)
 
         time = []
         temperature = []
         humidity = []
 
-        for entry in weatherData:
-            time.append(pd.to_datetime(entry[0]))
-            temperature.append(round(float(entry[1]), 2))
-            humidity.append(round(float(entry[2]), 2))
+        for entry in temperatureData:
+            time = entry[0]
+            temperature = entry[1]
+            humidity = entry[2]
         
         return time, temperature, humidity
 
-    
 ### Functions specifically for pushbullet_data table
     def insertPushbulletData(self, date = datetime.now()):
-        command = """INSERT INTO pushbullet_data VALUES (DATE('now'))"""
+        command = """INSERT INTO pushbullet_data VALUES (DATE('now', 'localtime'))"""
         action = "Inserting Pushbullet data"
         self.runCommand(command, action)
 
     def createPushbulletTable(self):
         self.createTable('pushbullet_data', 'date DATETIME')
-
-		
