@@ -2,7 +2,6 @@ import logging
 import sqlite3
 import sys
 from datetime import datetime, timedelta
-import pandas as pd
 from defineTimezone import *
 
 DATE_FORMAT = "%Y-%m-%d"
@@ -161,7 +160,7 @@ class Database:
 
 ### Functions specifically for pushbullet_data table
     def insertPushbulletData(self, date = datetime.now(timezone)):
-        command = """INSERT INTO pushbullet_data VALUES (DATE('now'))"""
+        command = """INSERT INTO pushbullet_data VALUES (DATE('now', 'localtime'))"""
         action = "Inserting Pushbullet data"
         self.runCommand(command, action)
 
