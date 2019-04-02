@@ -1,0 +1,85 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.css" type="text/css" />
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.js"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="91cefbcf-637f-4f44-ad90-8fe1c6639631" data-root-id="1731"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="1812">
+          {"7a16e0d2-58d4-4055-9880-2c0ae9cc05cd":{"roots":{"references":[{"attributes":{"axis_label":"Date","formatter":{"id":"1760","type":"CategoricalTickFormatter"},"plot":{"id":"1731","subtype":"Figure","type":"Plot"},"ticker":{"id":"1742","type":"CategoricalTicker"}},"id":"1741","type":"CategoricalAxis"},{"attributes":{"callback":null,"end":80,"start":0},"id":"1735","type":"DataRange1d"},{"attributes":{},"id":"1760","type":"CategoricalTickFormatter"},{"attributes":{},"id":"1737","type":"CategoricalScale"},{"attributes":{},"id":"1758","type":"BasicTickFormatter"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"top":{"field":"top"},"width":{"value":0.9},"x":{"field":"x"}},"id":"1752","type":"VBar"},{"attributes":{},"id":"1739","type":"LinearScale"},{"attributes":{},"id":"1746","type":"BasicTicker"},{"attributes":{"axis_label":"Average humidity (%)","formatter":{"id":"1758","type":"BasicTickFormatter"},"plot":{"id":"1731","subtype":"Figure","type":"Plot"},"ticker":{"id":"1746","type":"BasicTicker"}},"id":"1745","type":"LinearAxis"},{"attributes":{},"id":"1762","type":"UnionRenderers"},{"attributes":{"callback":null,"factors":["2019-03-31","2019-04-01","2019-04-02","2019-04-03","2019-04-04","2019-04-05","2019-04-06","2019-04-07"]},"id":"1733","type":"FactorRange"},{"attributes":{"plot":null,"text":"Average humidity for 2019-03-31 to 2019-04-07"},"id":"1730","type":"Title"},{"attributes":{"below":[{"id":"1741","type":"CategoricalAxis"}],"left":[{"id":"1745","type":"LinearAxis"}],"plot_height":400,"renderers":[{"id":"1741","type":"CategoricalAxis"},{"id":"1744","type":"Grid"},{"id":"1745","type":"LinearAxis"},{"id":"1749","type":"Grid"},{"id":"1754","type":"GlyphRenderer"}],"title":{"id":"1730","type":"Title"},"toolbar":{"id":"1750","type":"Toolbar"},"toolbar_location":null,"x_range":{"id":"1733","type":"FactorRange"},"x_scale":{"id":"1737","type":"CategoricalScale"},"y_range":{"id":"1735","type":"DataRange1d"},"y_scale":{"id":"1739","type":"LinearScale"}},"id":"1731","subtype":"Figure","type":"Plot"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto"},"id":"1750","type":"Toolbar"},{"attributes":{},"id":"1761","type":"Selection"},{"attributes":{"callback":null,"data":{"top":[56.49,55.59,55.25,58.16,55.67,53.9,60.27,54.64],"x":["2019-03-31","2019-04-01","2019-04-02","2019-04-03","2019-04-04","2019-04-05","2019-04-06","2019-04-07"]},"selected":{"id":"1761","type":"Selection"},"selection_policy":{"id":"1762","type":"UnionRenderers"}},"id":"1751","type":"ColumnDataSource"},{"attributes":{"dimension":1,"plot":{"id":"1731","subtype":"Figure","type":"Plot"},"ticker":{"id":"1746","type":"BasicTicker"}},"id":"1749","type":"Grid"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"top":{"field":"top"},"width":{"value":0.9},"x":{"field":"x"}},"id":"1753","type":"VBar"},{"attributes":{"data_source":{"id":"1751","type":"ColumnDataSource"},"glyph":{"id":"1752","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1753","type":"VBar"},"selection_glyph":null,"view":{"id":"1755","type":"CDSView"}},"id":"1754","type":"GlyphRenderer"},{"attributes":{"grid_line_color":{"value":null},"plot":{"id":"1731","subtype":"Figure","type":"Plot"},"ticker":{"id":"1742","type":"CategoricalTicker"}},"id":"1744","type":"Grid"},{"attributes":{},"id":"1742","type":"CategoricalTicker"},{"attributes":{"source":{"id":"1751","type":"ColumnDataSource"}},"id":"1755","type":"CDSView"}],"root_ids":["1731"]},"title":"Bokeh Application","version":"1.0.4"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('1812').textContent;
+                  var render_items = [{"docid":"7a16e0d2-58d4-4055-9880-2c0ae9cc05cd","roots":{"1731":"91cefbcf-637f-4f44-ad90-8fe1c6639631"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                        clearInterval(timer);
+                      }
+                      attempts++;
+                      if (attempts > 100) {
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        clearInterval(timer);
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>

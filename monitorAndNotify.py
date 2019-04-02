@@ -7,7 +7,7 @@ import time
 import sqlite3
 from datetime import datetime, timedelta
 from pushbullet import Pushbullet
-
+from defineTimezone import *
 DATE_FORMAT = "%Y-%m-%d"
 TIME_FORMAT = "%H:%M:%S"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -30,7 +30,7 @@ class Monitor:
         self.configFilename = 'config.json'
         self.sense = VirtualSenseHat.getSenseHat()
         # self.sense = SenseHat.getSenseHat() #use this when we test on Pi
-        self.startTime = datetime.now()
+        self.startTime = datetime.now(timezone)
 
         self.fakeTime = self.startTime
 
@@ -44,7 +44,7 @@ class Monitor:
         self.maxHumidity = self.range["max_humidity"]
 
     def readSenseHatData(self):
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now(timezone)
         self.date = self.timestamp.date()
         time = self.timestamp.time()
         self.temperature = self.sense.get_temperature()

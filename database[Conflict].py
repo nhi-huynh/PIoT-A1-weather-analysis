@@ -3,7 +3,6 @@ import sqlite3
 import sys
 from datetime import datetime, timedelta
 import pandas as pd
-from defineTimezone import *
 
 DATE_FORMAT = "%Y-%m-%d"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -112,7 +111,7 @@ class Database:
         return entries
 
 ### Functions neccessary for analytics.py
-    def getWeatherDataOn(self, date = datetime.now(timezone).date()):     
+    def getWeatherDataOn(self, date):     
         """
         Receive a date object e.g. datetime(year, month, day). 
         If no date received, default date is today. 
@@ -142,25 +141,26 @@ class Database:
         """
         if startDate == None or endDate == None:
             startDate, endDate = self.getAllValue("SELECT MIN(date), MAX(date) from sensehat_data", "minimum date in sensehat_data").fetchone()
+            logging.debug("Start date is: {}".format(startDate))
+            logging.debug("End date is: ".format(endDate))
 
-        if startDate and endDate:
-            command = """SELECT date, AVG(temperature), AVG(humidity) FROM sensehat_data GROUP BY date"""
-            value = "Average weather data from {} to {}".format(startDate, endDate)
-            avgWeatherData =  self.getAllValue(command, value)
+        command = """SELECT date, AVG(temperature), AVG(humidity) FROM sensehat_data WHERE date BETWEEN {} AND {} GROUP BY date""".format(startDate, endDate)
+        value = "Average weather data from {} to {}".format(startDate, endDate)
+        avgWeatherData =  self.getAllValue(command, value)
 
-            date = []
-            avgTemperature = []
-            avgHumidity = []
+        date = []
+        avgTemperature = []
+        avgHumidity = []
 
-            for entry in avgWeatherData:
-                date.append(entry[0].strftime(DATE_FORMAT))
-                avgTemperature.append(round(float(entry[1]), 2))
-                avgHumidity.append(round(float(entry[2]), 2))
+        for entry in avgWeatherData:
+            date.append(pd.to_datetime(entry[0]))
+            avgTemperature.append(round(float(entry[1]), 2))
+            avgHumidity.append(round(float(entry[2]), 2))
         
         return date, avgTemperature, avgHumidity
 
 ### Functions specifically for pushbullet_data table
-    def insertPushbulletData(self, date = datetime.now(timezone)):
+    def insertPushbulletData(self, date = datetime.now()):
         command = """INSERT INTO pushbullet_data VALUES (DATE('now'))"""
         action = "Inserting Pushbullet data"
         self.runCommand(command, action)
