@@ -74,9 +74,11 @@ class Monitor:
         self.cursor.execute("SELECT * FROM pushbullet_data ORDER BY date DESC LIMIT 1")
         result = self.cursor.fetchone()[0]
         print(result)
-        strdate = self.date.strftime(DATE_FORMAT)
-        print(strdate)
-        if result == strdate:
+        tstamp = datetime.now()
+        date = self.timestamp.date()
+        thisdate = self.date.strftime(DATE_FORMAT)
+        print(thisdate)
+        if result == thisdate:
             print(True)
             return True
         else:
@@ -121,11 +123,14 @@ class Monitor:
                 elif temperatureStatus != "" and humidityStatus == "":
                     sendstatus = temperatureStatus
                 elif temperatureStatus == "" and humidityStatus != "":
-                    sendstatus = humidityStatus
+                    # sendstatus = humidityStatus
 
                 body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(self.temperature, self.humidity, sendstatus)
                 printDevice = self.pb.devices[2]
-                self.database.insertPushbulletData()
+                tstamp = datetime.now()
+                date = self.timestamp.date()
+                thisdate = self.date.strftime(DATE_FORMAT)
+                self.database.insertPushbulletData(thisdate)
                 push = printDevice.push_note("Weather Update", body)
 
             logging.debug('\nWaiting for 1 minute...\n')
