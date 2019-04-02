@@ -22,8 +22,7 @@ PartB:
   data validation rules.
   
 PartC:
-  Get the Cron job working - script not running on boot.
-  Set up hourly cron.
+  Get the Cron job working - script not starting on boot.
   
 PartD:
   Create visuals from 2 different libraries.
