@@ -15,16 +15,16 @@ Left to do:
   
 PartA:
   SQL Injection attack.
-  Adjust UTC time to LocalTime.
+  (Nhi) - Adjust UTC time to LocalTime.
   (Claire) Adjust temperature to account for cpu heat and speed.
-  validation required before inserting data into the database.
+  (Nhi) - validation required before inserting data into the database.
   
 PartB:
   handled file related exceptions.
   data validation rules.
   
 PartD:
-  Create visuals from 2 different libraries.
+  (Nhi) - Create visuals from 2 different libraries.
   Clearly labelled, detailed representations will receive higher marks.
   (Claire) Research for questions.
   (Claire) Analytic.py file to answer questions.
