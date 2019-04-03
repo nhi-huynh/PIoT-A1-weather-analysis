@@ -2,14 +2,10 @@ import logging
 import sqlite3
 import sys
 from datetime import datetime, timedelta
+import pandas as pd
 from defineTimezone import *
 
-DATE_FORMAT = "%Y-%m-%d"
-DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-TIME_FORMAT = "%H:%M:%S"
 
-ONE_DAY_DELTA = timedelta(days = 1)
-ONE_HOUR_DELTA = timedelta(hours = 1)
 
 logging.basicConfig(level = logging.DEBUG)
 
@@ -127,9 +123,9 @@ class Database:
         humidity = []
 
         for entry in temperatureData:
-            time = entry[0]
-            temperature = entry[1]
-            humidity = entry[2]
+            time.append(pd.to_datetime(entry[0]).time())
+            temperature.append(round(float(entry[1]), 2))
+            humidity.append(round(float(entry[2]), 2))
 
         return time, temperature, humidity
 

@@ -5,15 +5,10 @@ import logging
 import json
 import time
 import sqlite3
-from datetime import datetime, timedelta
 from pushbullet import Pushbullet
 from defineTimezone import *
 
-DATE_FORMAT = "%Y-%m-%d"
-TIME_FORMAT = "%H:%M:%S"
-DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-ONE_DAY_DELTA = timedelta(days=1)
-ONE_HOUR_DELTA = timedelta(hours=1)
+
 
 logging.basicConfig(level=logging.DEBUG)
 ACCESS_TOKEN = "o.SED5fMSZb6RoIOAUX2tJtko1HoseOVbq"

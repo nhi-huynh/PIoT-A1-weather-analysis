@@ -1,20 +1,17 @@
 from bokeh.plotting import figure, output_file, show
 from bokeh.models import DatetimeTicker, FactorRange
+
 from database import Database
-from datetime import datetime, date, timedelta
+from defineTimezone import *
 import logging
 
 import matplotlib.pyplot as plt
+import matplotlib.axes
 import numpy as np
 import pandas as pd
-import seaborn as sns
 
-DATE_FORMAT = "%Y-%m-%d"
-DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-TIME_FORMAT = "%H:%M:%S"
 
-ONE_DAY_DELTA = timedelta(days = 1)
-ONE_HOUR_DELTA = timedelta(hours = 1)
+
 
 logging.basicConfig(level = logging.DEBUG)
 
@@ -24,7 +21,7 @@ class Analytics:
         self.database = Database(self.databaseName) 
         
 
-    def prepareDataStraightPlot(self, dataDate = datetime.today().date() + ONE_DAY_DELTA):
+    def prepareDataLinePlot(self, dataDate = datetime.today().date()):
         # prepare some data
         self.time, self.temperature, self.humidity = self.database.getWeatherDataOn(dataDate)
         logging.debug('Time series: ')
@@ -33,7 +30,7 @@ class Analytics:
         logging.debug(self.temperature)
         logging.debug('Humidity series: ')
         logging.debug(self.humidity)
-        return dataDate
+        self.dataDate = dataDate
     
     def prepareDataBarPlot(self):
         self.date, self.avgTemperature, self.avgHumidity = self.database.getAverageWeatherData()
@@ -44,8 +41,28 @@ class Analytics:
         logging.debug('Avg humidity series: ')
         logging.debug(self.avgHumidity)
 
+    def plotLineGraph(self, x_list, y_list, value, unit):
+        # data
+        #df=pd.DataFrame({'x': x_list, 'y': y_list})
+
+        # output to static HTML file
+        output_file("{}Plot.html".format(value))
+        figureTitle = "{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT))
+        x_axis_label= 'Time'
+        y_axis_label= '{} ({})'.format(value, unit)
+
+        # create a new plot with a title and axis labels
+        p = figure(plot_width=1200, plot_height=600, title=figureTitle, x_axis_label=x_axis_label, y_axis_label=y_axis_label, x_axis_type="datetime")
+
+        # add a line renderer with legend and line thickness
+        p.xaxis.ticker = DatetimeTicker(desired_num_ticks = 24)
+        p.line(x_list, y_list, legend=value, line_width=2)
+
+        # show the results
+        show(p)
+
     def plotBarGraph(self, x_list, y_list, value, unit):
-        output_file("{}Plot.html".format(value.capitalize().replace(' ', '')))
+        output_file = "{}Plot.html".format(value.title().replace(' ', ''))
         figureTitle = "{} for {} to {}".format(value, x_list[0], x_list[-1])
         x_axis_label='Date'
         y_axis_label='{} ({})'.format(value, unit)
@@ -62,29 +79,11 @@ class Analytics:
         show(p)
 
 
-    def plotLineGraph(self, x_list, y_list, value, unit, prepareDataMethod):
-        # data
-        #df=pd.DataFrame({'x': x_list, 'y': y_list})
-
-        # output to static HTML file
-        output_file("{}Plot.html".format(value))
-
-        # create a new plot with a title and axis labels
-        date = prepareDataMethod()
-        p = figure(plot_width=1200, plot_height=600, title="{} for {}".format(value, date.strftime(DATE_FORMAT)), x_axis_label='Time', y_axis_label='{} ({})'.format(value, unit), x_axis_type="datetime")
-
-        # add a line renderer with legend and line thickness
-        p.xaxis.ticker = DatetimeTicker(desired_num_ticks = 24)
-        p.line(x_list, y_list, legend=value, line_width=2)
-
-        # show the results
-        show(p)
-
     def plotTemperature(self):
-        self.plotLineGraph(self.time, self.temperature, "Temperature", "*C", self.prepareDataStraightPlot)
+        self.plotLineGraph(self.time, self.temperature, "Temperature", "*C")
 
     def plotHumidity(self):
-        self.plotLineGraph(self.time, self.humidity, "Humidity", "%", self.prepareDataStraightPlot)
+        self.plotLineGraph(self.time, self.humidity, "Humidity", "%")
 
     def plotAvgTemperature(self):
         self.plotBarGraph(self.date, self.avgTemperature, "Average temperature", "*C")
@@ -93,26 +92,79 @@ class Analytics:
         self.plotBarGraph(self.date, self.avgHumidity, "Average humidity", "%")
 
 
-    def plotLineSeaborn(self, x_list, y_list):
-        df=pd.DataFrame({'xvalues': x_list, 'yvalues': y_list})
+    def plotLineMatplotlib(self, x_list, y_list, value, unit):
+        output_file = "{}Plot.png".format(value.title().replace(' ', ''))
+        df=pd.DataFrame({'time': x_list, value : y_list})
  
         # plot
-        plt.plot( 'xvalues', 'yvalues', data=df)
+        figure, axes = plt.subplots(figsize=(16,6))
+        axes.plot('time', value, data=df)
+        plt.title("{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT)))
+        plt.xlabel("Time")
+        plt.ylabel('{} ({})'.format(value, unit))
+
+        plt.legend()
+        plt.grid(True)
+
+        plt.xticks([i.strftime("%H:%M") for i in x_list])
+        logging.debug(plt.xticks())
+        if unit == "*C":
+            plt.ylim(0,50)
+        else:
+            plt.ylim(0,80)
+
+        plt.savefig(output_file)
         plt.show()
 
-    def plotTemperatureSeaborn(self):
-        self.plotLineSeaborn(self.time, self.temperature)
+    def plotBarMatplotlib(self, x_list, y_list, value, unit):
+        output_file = "{}Plot.png".format(value.title().replace(' ', ''))
+        figureTitle = "{} for {} to {}".format(value, x_list[0], x_list[-1])
 
+        df=pd.DataFrame({'date': x_list, value : y_list})
+ 
+        # plot
+        figure, axes = plt.subplots(figsize=(16,6))
+        axes.bar('date', value, data=df)
+        plt.title("{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT)))
+        plt.xlabel('Date')
+        plt.ylabel('{} ({})'.format(value, unit))
+
+        plt.legend()
+        plt.grid(axis = 'y')
+
+        plt.xticks(self.date)
+        logging.debug(plt.xticks())
+        if unit == "*C":
+            plt.ylim(0,50)
+        else:
+            plt.ylim(0,80)
+
+        plt.savefig(output_file)
+        plt.show()
+
+    def plotTemperatureMatplotlib(self):
+        self.plotLineMatplotlib(self.time, self.temperature, "Temperature", "*C")
+
+    def plotHumidityMatplotlib(self):
+        self.plotLineMatplotlib(self.time, self.humidity, "Humidity", "%")
+
+    def plotAvgTemperatureMatplotlib(self):
+        self.plotBarMatplotlib(self.date, self.avgTemperature, "Average temperature", "*C")
+
+    def plotAvgHumidityMatplotlib(self):
+        self.plotBarMatplotlib(self.date, self.avgHumidity, "Average humidity", "%")
 
 analytics = Analytics()
 
-analytics.prepareDataStraightPlot()
-# analytics.plotTemperature()       #Using Bokeh
-# analytics.plotHumidity()          #Using Bokeh
-analytics.plotTemperatureSeaborn()
+analytics.prepareDataLinePlot()
+analytics.plotTemperature()       #Using Bokeh
+analytics.plotHumidity()          #Using Bokeh
+analytics.plotTemperatureMatplotlib()   
+analytics.plotHumidityMatplotlib()
 
 
 analytics.prepareDataBarPlot()
-# analytics.plotAvgTemperature()    #Using Bokeh
-# analytics.plotAvgHumidity()       #Using Bokeh
-
+analytics.plotAvgTemperature()    #Using Bokeh
+analytics.plotAvgHumidity()       #Using Bokeh
+analytics.plotAvgTemperatureMatplotlib()
+analytics.plotAvgHumidityMatplotlib()
