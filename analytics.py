@@ -19,12 +19,12 @@ ONE_HOUR_DELTA = timedelta(hours = 1)
 logging.basicConfig(level = logging.DEBUG)
 
 class Analytics:
-    def __init__(self, databaseName = 'VirtualSenseHat.db'):
+    def __init__(self, databaseName = 'fakeData.db'):
         self.databaseName = databaseName
         self.database = Database(self.databaseName) 
         
 
-    def prepareDataStraightPlot(self, dataDate = datetime.today().date()):
+    def prepareDataStraightPlot(self, dataDate = datetime.today().date() + ONE_DAY_DELTA):
         # prepare some data
         self.time, self.temperature, self.humidity = self.database.getWeatherDataOn(dataDate)
         logging.debug('Time series: ')
@@ -93,13 +93,26 @@ class Analytics:
         self.plotBarGraph(self.date, self.avgHumidity, "Average humidity", "%")
 
 
+    def plotLineSeaborn(self, x_list, y_list):
+        df=pd.DataFrame({'xvalues': x_list, 'yvalues': y_list})
+ 
+        # plot
+        plt.plot( 'xvalues', 'yvalues', data=df)
+        plt.show()
+
+    def plotTemperatureSeaborn(self):
+        self.plotLineSeaborn(self.time, self.temperature)
+
+
 analytics = Analytics()
 
 analytics.prepareDataStraightPlot()
-analytics.plotTemperature()
-analytics.plotHumidity()
+# analytics.plotTemperature()       #Using Bokeh
+# analytics.plotHumidity()          #Using Bokeh
+analytics.plotTemperatureSeaborn()
+
 
 analytics.prepareDataBarPlot()
-analytics.plotAvgTemperature()
-analytics.plotAvgHumidity()
+# analytics.plotAvgTemperature()    #Using Bokeh
+# analytics.plotAvgHumidity()       #Using Bokeh
 

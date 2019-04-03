@@ -123,9 +123,9 @@ class Monitor:
                 elif temperatureStatus != "" and humidityStatus == "":
                     sendstatus = temperatureStatus
                 elif temperatureStatus == "" and humidityStatus != "":
-                    # sendstatus = humidityStatus
+                    sendstatus = humidityStatus
 
-                body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(self.temperature, self.humidity, sendstatus)
+                body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}".format(self.temperature, self.humidity, sendstatus)
                 printDevice = self.pb.devices[2]
                 tstamp = datetime.now()
                 date = self.timestamp.date()
@@ -149,7 +149,7 @@ class Monitor:
         logging.debug('Stop monitoring...\nStop writing to the database...')
         self.database.closeDatabase()
 
-monitor = Monitor()
-monitor.initRange()
-monitor.startMonitoring()
-# monitor.debugMonitoring()
+monitor = Monitor("fakeData.db")
+# monitor.initRange()
+# monitor.startMonitoring()
+monitor.debugMonitoring()
