@@ -14,17 +14,14 @@ Left to do:
   (Claire) Get the Cron job working - script not running on boot.
   
 PartA:
-  (Claire can expand on Nhi's code for this) -SQL Injection attack. 
-  (Nhi) - Adjust UTC time to LocalTime.
+  SQL Injection attack. 
   (Claire) Adjust temperature to account for cpu heat and speed.
   (Nhi) - validation required before inserting data into the database.
   
 PartB:
-  (Nhi) - handled file related exceptions.
-  (Claire can expand on Nhi's code for this) - data validation rules.
+  (Nhi) - data validation rules.
   
 PartD:
-  (Nhi) - Create visuals from 2 different libraries.
-  (Claire can expand on Nhi's code for this) Clearly labelled, detailed representations will receive higher marks.
+  Clearly labelled, detailed representations will receive higher marks.
   (Claire) Research for questions.
   (Claire) Analytic.py file to answer questions.

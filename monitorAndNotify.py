@@ -8,6 +8,7 @@ import sqlite3
 from datetime import datetime, timedelta
 from pushbullet import Pushbullet
 from defineTimezone import *
+
 DATE_FORMAT = "%Y-%m-%d"
 TIME_FORMAT = "%H:%M:%S"
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -24,7 +25,6 @@ class Monitor:
         self.pb = Pushbullet(ACCESS_TOKEN)
         self.databaseName = databaseName
         self.database = Database(self.databaseName)
-
         self.connection = sqlite3.connect(databaseName)
         self.cursor = self.connection.cursor()
         self.configFilename = 'config.json'
@@ -74,11 +74,9 @@ class Monitor:
         self.cursor.execute("SELECT * FROM pushbullet_data ORDER BY date DESC LIMIT 1")
         result = self.cursor.fetchone()[0]
         print(result)
-        tstamp = datetime.now()
-        date = self.timestamp.date()
-        thisdate = self.date.strftime(DATE_FORMAT)
-        print(thisdate)
-        if result == thisdate:
+        strdate = self.date.strftime(DATE_FORMAT)
+        print(strdate)
+        if result == strdate:
             print(True)
             return True
         else:
@@ -127,10 +125,7 @@ class Monitor:
 
                 body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}".format(self.temperature, self.humidity, sendstatus)
                 printDevice = self.pb.devices[2]
-                tstamp = datetime.now()
-                date = self.timestamp.date()
-                thisdate = self.date.strftime(DATE_FORMAT)
-                self.database.insertPushbulletData(thisdate)
+                self.database.insertPushbulletData()
                 push = printDevice.push_note("Weather Update", body)
 
             logging.debug('\nWaiting for 1 minute...\n')

@@ -9,6 +9,7 @@ import bluetooth
 import time
 from pushbullet import Pushbullet
 from datetime import datetime, timedelta
+from defineTimezone import *
 
 ACCESS_TOKEN = "o.SED5fMSZb6RoIOAUX2tJtko1HoseOVbq"
 TIME_FORMAT = "%H:%M:%S"
@@ -67,12 +68,12 @@ class Greenhouse_Bluetooth:
         return status
 
     def main(self):
-        time1 = datetime.now()
-        time3 = datetime.now()
+        time1 = datetime.now(timezone)
+        time3 = datetime.now(timezone)
         print("Starting up please wait a moment...")
         while True:
             time.sleep(60)
-            time1 = datetime.now()
+            time1 = datetime.now(timezone)
             humidity = self.sense.get_humidity()
             print("Humidity {:.2f}".format(humidity))
             temperature = self.fixTemp()
@@ -99,11 +100,10 @@ class Greenhouse_Bluetooth:
                 print(time_3)
                 print(time_1)
                 print(time_1 - time_3)
-                # change this value from 2 to 60 for hourly notifications
                 if (time_1 - time_3) >= 2:
                     body = "Currently the temperature is {:.2f}*C and the humidity is {:.2f}% \nStatus Report: {}" .format(temperature, humidity, sendstatus)
                     self.send_notification_via_pushbullet("Update", body)
-                    time3 = datetime.now()
+                    time3 = datetime.now(timezone)
             print("Waiting for 1 minute...")
 
 # Execute program
