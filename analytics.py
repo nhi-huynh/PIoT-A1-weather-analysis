@@ -7,6 +7,7 @@ import logging
 
 import matplotlib.pyplot as plt
 import matplotlib.axes
+import seaborn as sns
 import numpy as np
 import pandas as pd
 
@@ -16,7 +17,7 @@ import pandas as pd
 logging.basicConfig(level = logging.DEBUG)
 
 class Analytics:
-    def __init__(self, databaseName = 'fakeData.db'):
+    def __init__(self, databaseName = 'VirtualSenseHat.db'):
         self.databaseName = databaseName
         self.database = Database(self.databaseName) 
         
@@ -98,7 +99,7 @@ class Analytics:
  
         # plot
         figure, axes = plt.subplots(figsize=(16,6))
-        axes.plot('time', value, data=df)
+        axes.plot('time', value, data=df, marker='o', color='mediumvioletred')
         plt.title("{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT)))
         plt.xlabel("Time")
         plt.ylabel('{} ({})'.format(value, unit))
@@ -124,7 +125,7 @@ class Analytics:
  
         # plot
         figure, axes = plt.subplots(figsize=(16,6))
-        axes.bar('date', value, data=df)
+        axes.bar('date', value, data=df, color='mediumvioletred')
         plt.title("{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT)))
         plt.xlabel('Date')
         plt.ylabel('{} ({})'.format(value, unit))
