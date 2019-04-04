@@ -11,8 +11,13 @@ detailed report and to use visualisation libraries to create graph displaying ou
 
 
 Left to do:
+
   (Claire) Pep8 check all code.
+  
   (Claire) Adjust temperature to account for cpu heat and speed.
+  
   (Nhi) - clean up code not being used
+  
   (Claire) Run pi ofr 24+ hours
+  
   (Nhi) - remake graphs with collected data
