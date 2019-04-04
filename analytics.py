@@ -17,7 +17,7 @@ import pandas as pd
 logging.basicConfig(level = logging.DEBUG)
 
 class Analytics:
-    def __init__(self, databaseName = 'VirtualSenseHat.db'):  #
+    def __init__(self, databaseName = "fakeData.db"):  # 'VirtualSenseHat.db'
         self.databaseName = databaseName
         self.database = Database(self.databaseName) 
         
