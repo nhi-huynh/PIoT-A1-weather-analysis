@@ -11,9 +11,6 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 
-
-
-
 logging.basicConfig(level = logging.DEBUG)
 
 class Analytics:
@@ -45,8 +42,6 @@ class Analytics:
         logging.debug(self.avgHumidity)
 
     def plotLineGraph(self, x_list, y_list, value, unit):
-        # data
-        #df=pd.DataFrame({'x': x_list, 'y': y_list})
 
         # output to static HTML file
         output_file("{}Plot.html".format(value))
@@ -111,6 +106,7 @@ class Analytics:
 
         plt.xticks([i.strftime("%H:%M") for i in x_list])
         logging.debug(plt.xticks())
+
         if unit == "*C":
             plt.ylim(0,70)
         else:
@@ -128,7 +124,7 @@ class Analytics:
         # plot
         figure, axes = plt.subplots(figsize=(16,6))
         axes.bar('date', value, data=df, color='mediumvioletred')
-        plt.title("{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT)))
+        plt.title(figureTitle)
         plt.xlabel('Date')
         plt.ylabel('{} ({})'.format(value, unit))
 
@@ -159,11 +155,11 @@ class Analytics:
 
 analytics = Analytics()
 
-# analytics.prepareDataLinePlot()
-# analytics.plotTemperature()       #Using Bokeh
-# analytics.plotHumidity()          #Using Bokeh
-# analytics.plotTemperatureMatplotlib()   
-# analytics.plotHumidityMatplotlib()
+analytics.prepareDataLinePlot()
+analytics.plotTemperature()       #Using Bokeh
+analytics.plotHumidity()          #Using Bokeh
+analytics.plotTemperatureMatplotlib()   
+analytics.plotHumidityMatplotlib()
 
 
 analytics.prepareDataBarPlot()
