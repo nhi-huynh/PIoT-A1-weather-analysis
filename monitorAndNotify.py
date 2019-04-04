@@ -126,20 +126,11 @@ class Monitor:
             logging.debug('\nWaiting for 1 minute...\n')
             time.sleep(60)
 
-    def debugMonitoring(self):
-        # This code is for debugging only:Read SenseHat data every 5s for 10 times
-        # Then repeat that process for everyday to simulate a one-week progress
-        for i in range(24*7):
-            self.readFakeSenseHatData()
-            self.database.insertSenseHatData(self.fakeTime.date(), self.fakeTime.time(), self.temperature, self.humidity)
-            # time.sleep(1)
-            logging.debug('Waiting for 1 minute...\n')
-
     def stopMonitoring(self):
         logging.debug('Stop monitoring...\nStop writing to the database...')
         self.database.closeDatabase()
 
-monitor = Monitor("fakeData.db")
-# monitor.initRange()
-# monitor.startMonitoring()
-monitor.debugMonitoring()
+monitor = Monitor()
+monitor.initRange()
+monitor.startMonitoring()
+
