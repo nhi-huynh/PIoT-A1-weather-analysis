@@ -20,10 +20,12 @@ class Analytics:
     def __init__(self, databaseName = 'VirtualSenseHat.db'):  # "fakeData.db"
         self.databaseName = databaseName
         self.database = Database(self.databaseName) 
-        
+        self.currentDate = datetime.today().date() - ONE_DAY_DELTA
 
-    def prepareDataLinePlot(self, dataDate = datetime.today().date()):
+    def prepareDataLinePlot(self, dataDate = None):
         # prepare some data
+        if dataDate == None:
+            dataDate = self.currentDate
         self.time, self.temperature, self.humidity = self.database.getWeatherDataOn(dataDate)
         logging.debug('Time series: ')
         logging.debug(self.time)
@@ -34,7 +36,7 @@ class Analytics:
         self.dataDate = dataDate
     
     def prepareDataBarPlot(self):
-        self.date, self.avgTemperature, self.avgHumidity = self.database.getAverageWeatherData()
+        self.date, self.avgTemperature, self.avgHumidity = self.database.getAverageWeatherData(endDate = self.currentDate)
         logging.debug('Date series: ')
         logging.debug(self.date)
         logging.debug('Avg temperature series: ')
@@ -74,9 +76,9 @@ class Analytics:
         p.xgrid.grid_line_color = None
         p.y_range.start = 0
         if unit == "*C":
-            p.y_range.end = 50
+            p.y_range.end = 70
         else:
-            p.y_range.end = 80
+            p.y_range.end = 70
         show(p)
 
 
@@ -110,9 +112,9 @@ class Analytics:
         plt.xticks([i.strftime("%H:%M") for i in x_list])
         logging.debug(plt.xticks())
         if unit == "*C":
-            plt.ylim(0,50)
+            plt.ylim(0,70)
         else:
-            plt.ylim(0,80)
+            plt.ylim(0,70)
 
         plt.savefig(output_file)
         plt.show()
@@ -157,11 +159,11 @@ class Analytics:
 
 analytics = Analytics()
 
-analytics.prepareDataLinePlot()
-analytics.plotTemperature()       #Using Bokeh
-analytics.plotHumidity()          #Using Bokeh
-analytics.plotTemperatureMatplotlib()   
-analytics.plotHumidityMatplotlib()
+# analytics.prepareDataLinePlot()
+# analytics.plotTemperature()       #Using Bokeh
+# analytics.plotHumidity()          #Using Bokeh
+# analytics.plotTemperatureMatplotlib()   
+# analytics.plotHumidityMatplotlib()
 
 
 analytics.prepareDataBarPlot()

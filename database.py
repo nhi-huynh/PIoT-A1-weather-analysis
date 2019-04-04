@@ -27,7 +27,7 @@ class Database:
             logging.error('Open database failed. {}'.format(str(e)))
             sys.exit()
         else:
-            logging.debug('Sucessfully open database')
+            logging.debug('Sucessfully open database {}'.format(self.databaseName))
             self.connection = connection
             self.cursor = connection.cursor()
 
@@ -114,7 +114,7 @@ class Database:
         Return all temperature and humidity recorded and time for that day in a form of two dictionaries
         """
 
-        command = """SELECT time, temperature, humidity FROM sensehat_data WHERE date = '{}'""".format(date)
+        command = """SELECT time, temperature, humidity FROM sensehat_data WHERE date = '{}' AND time LIKE '%:00:%'""".format(date)
         value = "Weather data for date {}".format(date)
         temperatureData =  self.getAllValue(command, value)
 
@@ -135,22 +135,25 @@ class Database:
         If no date received, default date is today.
         Return all temperature and humidity recorded and time for that day in a form of two dictionaries
         """
+        date = []
+        avgTemperature = []
+        avgHumidity = []
+
         if startDate == None or endDate == None:
-            startDate, endDate = self.getAllValue("SELECT MIN(date), MAX(date) from sensehat_data", "minimum date in sensehat_data").fetchone()
+            allDates = self.getAllValue("SELECT MIN(date), MAX(date) from sensehat_data", "Min and max in sensehat_data").fetchone()
+            logging.debug(allDates)
+            startDate = allDates[0]
+            endDate = allDates[-1]
 
-        if startDate and endDate:
-            command = """SELECT date, AVG(temperature), AVG(humidity) FROM sensehat_data GROUP BY date"""
-            value = "Average weather data from {} to {}".format(startDate, endDate)
-            avgWeatherData =  self.getAllValue(command, value)
+        
+        command = """SELECT date, AVG(temperature), AVG(humidity) FROM sensehat_data GROUP BY date HAVING date BETWEEN '{}' AND '{}'""".format(startDate, endDate)
+        value = "Average weather data from {} to {}".format(startDate, endDate)
+        avgWeatherData =  self.getAllValue(command, value)
 
-            date = []
-            avgTemperature = []
-            avgHumidity = []
-
-            for entry in avgWeatherData:
-                date.append(entry[0].strftime(DATE_FORMAT))
-                avgTemperature.append(round(float(entry[1]), 2))
-                avgHumidity.append(round(float(entry[2]), 2))
+        for entry in avgWeatherData:
+            date.append(entry[0].strftime(DATE_FORMAT))
+            avgTemperature.append(round(float(entry[1]), 2))
+            avgHumidity.append(round(float(entry[2]), 2))
 
         return date, avgTemperature, avgHumidity
 
