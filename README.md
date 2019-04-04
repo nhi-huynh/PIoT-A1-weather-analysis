@@ -12,12 +12,7 @@ detailed report and to use visualisation libraries to create graph displaying ou
 
 Left to do:
   (Claire) Pep8 check all code.
-  (Claire) Get the Cron job working - script not running on boot.
-  
-PartA:
-  SQL Injection attack. 
   (Claire) Adjust temperature to account for cpu heat and speed.
-  (Nhi) - validation required before inserting data into the database.
-  
-PartB:
-  (Nhi) - data validation rules.
+  (Nhi) - clean up code not being used
+  (Claire) Run pi ofr 24+ hours
+  (Nhi) - remake graphs with collected data
