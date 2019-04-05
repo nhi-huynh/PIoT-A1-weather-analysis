@@ -1,0 +1,85 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    
+      <meta charset="utf-8">
+      <title>Bokeh Plot</title>
+      
+      
+        
+          
+        <link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.css" type="text/css" />
+        
+        
+          
+        <script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-1.0.4.min.js"></script>
+        <script type="text/javascript">
+            Bokeh.set_log_level("info");
+        </script>
+        
+      
+      
+    
+  </head>
+  
+  
+  <body>
+    
+      
+        
+          
+          
+            
+              <div class="bk-root" id="7d8a4dee-9fa9-42c3-bff0-1845a615382a" data-root-id="1085"></div>
+            
+          
+        
+      
+      
+        <script type="application/json" id="1166">
+          {"5e4e5fcd-6794-4fe1-88ab-2e583bc6c674":{"roots":{"references":[{"attributes":{},"id":"1091","type":"CategoricalScale"},{"attributes":{},"id":"1113","type":"CategoricalTickFormatter"},{"attributes":{},"id":"1100","type":"BasicTicker"},{"attributes":{"axis_label":"Average humidity (%)","formatter":{"id":"1111","type":"BasicTickFormatter"},"plot":{"id":"1085","subtype":"Figure","type":"Plot"},"ticker":{"id":"1100","type":"BasicTicker"}},"id":"1099","type":"LinearAxis"},{"attributes":{},"id":"1111","type":"BasicTickFormatter"},{"attributes":{"callback":null,"data":{"top":[24.3,24.34,24.23,25.22,29.38],"x":["2019-04-01","2019-04-02","2019-04-03","2019-04-04","2019-04-05"]},"selected":{"id":"1115","type":"Selection"},"selection_policy":{"id":"1116","type":"UnionRenderers"}},"id":"1105","type":"ColumnDataSource"},{"attributes":{"active_drag":"auto","active_inspect":"auto","active_multi":null,"active_scroll":"auto","active_tap":"auto"},"id":"1104","type":"Toolbar"},{"attributes":{"below":[{"id":"1095","type":"CategoricalAxis"}],"left":[{"id":"1099","type":"LinearAxis"}],"plot_height":400,"renderers":[{"id":"1095","type":"CategoricalAxis"},{"id":"1098","type":"Grid"},{"id":"1099","type":"LinearAxis"},{"id":"1103","type":"Grid"},{"id":"1108","type":"GlyphRenderer"}],"title":{"id":"1084","type":"Title"},"toolbar":{"id":"1104","type":"Toolbar"},"toolbar_location":null,"x_range":{"id":"1087","type":"FactorRange"},"x_scale":{"id":"1091","type":"CategoricalScale"},"y_range":{"id":"1089","type":"DataRange1d"},"y_scale":{"id":"1093","type":"LinearScale"}},"id":"1085","subtype":"Figure","type":"Plot"},{"attributes":{"callback":null,"factors":["2019-04-01","2019-04-02","2019-04-03","2019-04-04","2019-04-05"]},"id":"1087","type":"FactorRange"},{"attributes":{"axis_label":"Date","formatter":{"id":"1113","type":"CategoricalTickFormatter"},"plot":{"id":"1085","subtype":"Figure","type":"Plot"},"ticker":{"id":"1096","type":"CategoricalTicker"}},"id":"1095","type":"CategoricalAxis"},{"attributes":{},"id":"1093","type":"LinearScale"},{"attributes":{"source":{"id":"1105","type":"ColumnDataSource"}},"id":"1109","type":"CDSView"},{"attributes":{},"id":"1116","type":"UnionRenderers"},{"attributes":{"data_source":{"id":"1105","type":"ColumnDataSource"},"glyph":{"id":"1106","type":"VBar"},"hover_glyph":null,"muted_glyph":null,"nonselection_glyph":{"id":"1107","type":"VBar"},"selection_glyph":null,"view":{"id":"1109","type":"CDSView"}},"id":"1108","type":"GlyphRenderer"},{"attributes":{"callback":null,"end":50,"start":0},"id":"1089","type":"DataRange1d"},{"attributes":{},"id":"1115","type":"Selection"},{"attributes":{},"id":"1096","type":"CategoricalTicker"},{"attributes":{"fill_alpha":{"value":0.1},"fill_color":{"value":"#1f77b4"},"line_alpha":{"value":0.1},"line_color":{"value":"#1f77b4"},"top":{"field":"top"},"width":{"value":0.9},"x":{"field":"x"}},"id":"1107","type":"VBar"},{"attributes":{"plot":{"id":"1085","subtype":"Figure","type":"Plot"},"ticker":{"id":"1096","type":"CategoricalTicker"}},"id":"1098","type":"Grid"},{"attributes":{"fill_color":{"value":"#1f77b4"},"line_color":{"value":"#1f77b4"},"top":{"field":"top"},"width":{"value":0.9},"x":{"field":"x"}},"id":"1106","type":"VBar"},{"attributes":{"plot":null,"text":"Average humidity for 2019-04-01 to 2019-04-05"},"id":"1084","type":"Title"},{"attributes":{"dimension":1,"grid_line_color":{"value":"grey"},"plot":{"id":"1085","subtype":"Figure","type":"Plot"},"ticker":{"id":"1100","type":"BasicTicker"}},"id":"1103","type":"Grid"}],"root_ids":["1085"]},"title":"Bokeh Application","version":"1.0.4"}}
+        </script>
+        <script type="text/javascript">
+          (function() {
+            var fn = function() {
+              Bokeh.safely(function() {
+                (function(root) {
+                  function embed_document(root) {
+                    
+                  var docs_json = document.getElementById('1166').textContent;
+                  var render_items = [{"docid":"5e4e5fcd-6794-4fe1-88ab-2e583bc6c674","roots":{"1085":"7d8a4dee-9fa9-42c3-bff0-1845a615382a"}}];
+                  root.Bokeh.embed.embed_items(docs_json, render_items);
+                
+                  }
+                  if (root.Bokeh !== undefined) {
+                    embed_document(root);
+                  } else {
+                    var attempts = 0;
+                    var timer = setInterval(function(root) {
+                      if (root.Bokeh !== undefined) {
+                        embed_document(root);
+                        clearInterval(timer);
+                      }
+                      attempts++;
+                      if (attempts > 100) {
+                        console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+                        clearInterval(timer);
+                      }
+                    }, 10, root)
+                  }
+                })(window);
+              });
+            };
+            if (document.readyState != "loading") fn();
+            else document.addEventListener("DOMContentLoaded", fn);
+          })();
+        </script>
+    
+  </body>
+  
+</html>

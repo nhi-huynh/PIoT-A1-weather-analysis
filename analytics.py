@@ -17,7 +17,7 @@ class Analytics:
     def __init__(self, databaseName = 'VirtualSenseHat.db'):  # "fakeData.db"
         self.databaseName = databaseName
         self.database = Database(self.databaseName) 
-        self.currentDate = datetime.today().date() - ONE_DAY_DELTA
+        self.currentDate = datetime(2019, 4, 3).date()      #set 04/03/2019 as our default current date
 
     def prepareDataLinePlot(self, dataDate = None):
         # prepare some data
@@ -42,10 +42,11 @@ class Analytics:
         logging.debug(self.avgHumidity)
 
     def plotLineGraph(self, x_list, y_list, value, unit):
-
+        figureTitle = "{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT))
+        logging.debug("Plotting {}".format(figureTitle))
         # output to static HTML file
         output_file("{}Plot.html".format(value))
-        figureTitle = "{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT))
+        
         x_axis_label= 'Time'
         y_axis_label= '{} ({})'.format(value, unit)
 
@@ -56,24 +57,33 @@ class Analytics:
         p.xaxis.ticker = DatetimeTicker(desired_num_ticks = 24)
         p.line(x_list, y_list, legend=value, line_width=2)
 
+        p.y_range.start = 0
+        if unit == "*C":
+            p.y_range.end = 70
+        else:
+            p.y_range.end = 50
+
         # show the results
         show(p)
 
     def plotBarGraph(self, x_list, y_list, value, unit):
-        output_file = "{}Plot.html".format(value.title().replace(' ', ''))
         figureTitle = "{} for {} to {}".format(value, x_list[0], x_list[-1])
+        logging.debug("Plotting {}".format(figureTitle))
+        output_file = "{}Plot.html".format(value.title().replace(' ', ''))
+        
         x_axis_label='Date'
         y_axis_label='{} ({})'.format(value, unit)
         p = figure(x_range=self.date, plot_width=600, plot_height=400, title= figureTitle, x_axis_label=x_axis_label, y_axis_label=y_axis_label, toolbar_location=None, tools="")
         #x_range=self.date, x_range=FactorRange(self.date)
         #p.xaxis.ticker = days
         p.vbar(x=x_list, top=y_list, width=0.9)
-        p.xgrid.grid_line_color = None
+        p.ygrid.grid_line_color = "grey"
         p.y_range.start = 0
         if unit == "*C":
             p.y_range.end = 70
         else:
-            p.y_range.end = 70
+            p.y_range.end = 50
+
         show(p)
 
 
@@ -91,13 +101,15 @@ class Analytics:
 
 
     def plotLineMatplotlib(self, x_list, y_list, value, unit):
+        figureTitle = "{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT))
+        logging.debug("Plotting {}".format(figureTitle))
         output_file = "{}Plot.png".format(value.title().replace(' ', ''))
         df=pd.DataFrame({'time': x_list, value : y_list})
- 
+        
         # plot
         figure, axes = plt.subplots(figsize=(16,6))
         axes.plot('time', value, data=df, marker='o', color='mediumvioletred')
-        plt.title("{} for {}".format(value, self.dataDate.strftime(DATE_FORMAT)))
+        plt.title(figureTitle)
         plt.xlabel("Time")
         plt.ylabel('{} ({})'.format(value, unit))
 
@@ -110,14 +122,16 @@ class Analytics:
         if unit == "*C":
             plt.ylim(0,70)
         else:
-            plt.ylim(0,70)
+            plt.ylim(0,50)
 
         plt.savefig(output_file)
         plt.show()
 
     def plotBarMatplotlib(self, x_list, y_list, value, unit):
-        output_file = "{}Plot.png".format(value.title().replace(' ', ''))
         figureTitle = "{} for {} to {}".format(value, x_list[0], x_list[-1])
+        logging.debug("Plotting {}".format(figureTitle))
+        output_file = "{}Plot.png".format(value.title().replace(' ', ''))
+        
 
         df=pd.DataFrame({'date': x_list, value : y_list})
  
@@ -134,9 +148,9 @@ class Analytics:
         plt.xticks(self.date)
         logging.debug(plt.xticks())
         if unit == "*C":
-            plt.ylim(0,50)
+            plt.ylim(0,70)
         else:
-            plt.ylim(0,80)
+            plt.ylim(0,50)
 
         plt.savefig(output_file)
         plt.show()
@@ -163,7 +177,8 @@ analytics.plotHumidityMatplotlib()
 
 
 analytics.prepareDataBarPlot()
-analytics.plotAvgTemperature()    #Using Bokeh
+
 analytics.plotAvgHumidity()       #Using Bokeh
 analytics.plotAvgTemperatureMatplotlib()
 analytics.plotAvgHumidityMatplotlib()
+analytics.plotAvgTemperature()    #Using Bokeh
