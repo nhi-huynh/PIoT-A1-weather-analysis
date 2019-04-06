@@ -64,7 +64,7 @@ decided on Bokeh as it is easy to use and web-friendly
 Its hard to compare the libraries as each library has its own sort of distinct purpose.
 
 Matplotlib:
-	advantages:
+	advantages: 
 	- “tries to make easy things easy and hard things possible”
 	- very powerful, can create basically any kind of graphs out there
 	- well established, well maintained, well documented, well supported by python and the community, less bugs
