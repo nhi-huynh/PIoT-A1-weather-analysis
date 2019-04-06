@@ -24,7 +24,15 @@ detailed report and to use visualisation libraries to create graph displaying ou
 * SQLite3
 * Database
 
+### Acknowledgments
+* COSC2755 Tutorial scripts and Lecutre example scripts
+* Matthew Bolger's VirtualSenseHat Script
+
+
 Left to do:
+
   (Claire) Pep8 check all code.
+  
   (Nhi) - clean up code not being used
+  
   (Nhi) - remake graphs with collected data
