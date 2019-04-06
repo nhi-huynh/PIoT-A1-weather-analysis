@@ -37,8 +37,6 @@ Left to do:
 
   (Claire) Pep8 check all code.
   
-  (Claire) Add references to end of analytics.txt.
-  
   (Nhi) - clean up code not being used.
   
   (Nhi) - remake graphs with collected data.
