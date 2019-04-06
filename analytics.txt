@@ -5,7 +5,6 @@ at the data but also analyze patterns and be able to display data for a large pe
 of time. For these reasons we have chosen a Line Graph for daily representations and 
 a Bar graph for weekly average representations
 
-
 2) What should be represented in the above graph? Why did you make that decision?
 For the Line graph we have chosen to display 24 hours of data so anyone veiwing the 
 graph could see the way the temperature changed over a period of 24 hours. While for
@@ -56,27 +55,28 @@ libraries such as Matplotlib, it requires much less code to create the graphs. P
 line graph takes 3 lines of code and a simple bar chart takes 2 lines.
 
 4) Which two libraries did you narrow it down to? why/how?
-In the end after a discussion we decided on using Seaborn and Bokeh. The decision making was cut
-down as Nhi had worked with Matplotlib before and had found that while i was powerful it was also
-a bit complex to use, so from there we decided for one library we would use Seaborn as it is based
-on top of Matplotlib and requires much less code. For the second library we decided on Bokeh as it
-is easier to use and web-friendly
+In the end after a discussion we decided on using Matplotlib and Bokeh. The decision making was cut
+down as Nhi had worked with Matplotlib before so we decided that Matplotlib should be one of the
+libraries we used as Nhi was already familiar with it and how it works. For the second library we
+decided on Bokeh as it is easy to use and web-friendly
 
 5) A comparison of the libraries used:
 Its hard to compare the libraries as each library has its own sort of distinct purpose.
-Seaborn:
+
+Matplotlib:
 	advantages:
-	- better aesthetics - nicer default aesthetics
-	- built-in plots
-	- easy customizable aesthetics
-	- statistically-minded plots
-	- “If matplotlib “tries to make easy things easy and hard things possible”, seaborn tries
-		to make a well-defined set of hard things easy too.”
-	- Works with different parameters
+	- “tries to make easy things easy and hard things possible”
+	- very powerful, can create basically any kind of graphs out there
+	- well established, well maintained, well documented, well supported by python and the community, less bugs
+	- a lot of resources out there to learn matplotlib, lots of exmaples on the website with code
+	- huge community that answered basically all problems that you may run into
+	- great visualisation library
+	- open-source
+	- good at data analysis and large computatils (numarical or matrix)
 	
 	disadvantages:
-	- There arent really any disadvantages that i can see or find, there are some within Matplotlib,
-		but Seaborn is the solution to those problems
+	- API is relatively low level
+	- often require Seaborn to make it prettier
 
 Bokeh:
 	advantages:
