@@ -14,7 +14,7 @@ to incorporate PushBullet to notify devices of the weather, sense nearby bluetoo
 detailed report and to use visualisation libraries to create graph displaying our collected data.
 
 ### Requirements
-- Python 3 or higher
+- Python 3.*
 
 ### Built With
 * Sense Hat
