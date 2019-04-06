@@ -13,6 +13,9 @@ are to create a number of scripts to read data from the raspberry pi, read and w
 to incorporate PushBullet to notify devices of the weather, sense nearby bluetooth devices, create a 
 detailed report and to use visualisation libraries to create graph displaying our collected data.
 
+### Requirements
+- Python 3.5.2
+
 ### Built With
 * Sense Hat
 * Json
