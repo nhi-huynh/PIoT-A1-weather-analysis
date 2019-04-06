@@ -4,6 +4,7 @@ This project has been created for the unit Programming Internet of Things(COSC27
 
 ### Contributors
 s3663435 - Claire Taylor-Cuthbertson
+
 s3652578 - Nhi Huynh
 
 ### About
