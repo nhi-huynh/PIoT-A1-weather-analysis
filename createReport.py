@@ -11,15 +11,14 @@ class Report:
 
     def getReportName(self):
         validfilename = False
-        print("""What would you like to name the report file? \n
-        Enter the name only, the file extension will be added automatically""")
+        print("What would you like to name the report file?")
+        print("Enter a name only, the file extension will be added")
         while validfilename is False:
             filename = input()
             # check file name contains no spaces or special characters
             regex = re.compile(' [@_!#$%^&*()<>?/\|}{~:] ')
             if regex.search(filename) is None and (' ' in filename) is False:
                 reportfilename = filename + ".csv"
-                print("Filename:", reportfilename)
                 validfilename = True
                 return reportfilename
             else:
@@ -66,26 +65,25 @@ class Report:
         return status
 
     def computeReportData(self):
-        maxDeviationTemperature,
-        maxDeviationHumidity = self.database.getMaxMinDataPerDay()
+        maxDevTemperature, maxDevHumidity = self.database.getMaxMinDataPerDay()
 
-        for date in maxDeviationTemperature.keys():
+        for date in maxDevTemperature.keys():
             temperatureStatus = []
             humidityStatus = []
             reportRow = [date]
 
             temperatureStatus.append
             (self.evaluateStatus(
-                maxDeviationTemperature[date][0], "*C", max=self.maxTemp))
+                maxDevTemperature[date][0], "*C", max=self.maxTemp))
             temperatureStatus.append(
                 self.evaluateStatus
-                (maxDeviationTemperature[date][1], "*C", min=self.minTemp))
+                (maxDevTemperature[date][1], "*C", min=self.minTemp))
             humidityStatus.append(
                 self.evaluateStatus(
-                    maxDeviationHumidity[date][0], "%", max=self.maxHumidity))
+                    maxDevHumidity[date][0], "%", max=self.maxHumidity))
             humidityStatus.append(
                 self.evaluateStatus(
-                    maxDeviationHumidity[date][1], "%", min=self.minHumidity))
+                    maxDevHumidity[date][1], "%", min=self.minHumidity))
 
             if temperatureStatus != ["", ""] or humidityStatus != ["", ""]:
                 shortStatus = "BAD"
@@ -100,11 +98,8 @@ class Report:
                 status for status in humidityStatus if status != ""]
 
             self.reportData.append(reportRow)
-            logging.debug(reportRow)
 
     def writeFile(self):
-        logging.debug("Full report data after evaluating: {}".format(
-            self.reportData))
         with open(self.reportFilename, 'w', newline='') as csvFile:
             writer = csv.writer(csvFile)
             writer.writerows(self.reportData)
