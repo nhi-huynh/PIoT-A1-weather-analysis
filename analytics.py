@@ -17,7 +17,7 @@ class Analytics:
     def __init__(self, databaseName = 'VirtualSenseHat.db'):  # "fakeData.db"
         self.databaseName = databaseName
         self.database = Database(self.databaseName) 
-        self.currentDate = datetime(2019, 4, 4).date()      #set 04/03/2019 as our default current date
+        self.currentDate = datetime(2019, 4, 5).date()      #set 05/04/2019 as our default current date
 
     def prepareDataLinePlot(self, dataDate = None):
         # prepare some data
