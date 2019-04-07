@@ -57,9 +57,7 @@ class Monitor:
         self.cursor.execute("""SELECT * FROM pushbullet_data ORDER BY
                             date DESC LIMIT 1""")
         result = self.cursor.fetchone()[0]
-        print(result)
         strdate = self.date.strftime(DATE_FORMAT)
-        print(strdate)
         if result == strdate:
             return True
         else:
@@ -129,8 +127,6 @@ class Monitor:
                         humidity is {:.2f}% \nStatus Report: {}""" .format(
                             self.temperature, self.humidity, sendstatus)
                 printDevice = self.pb.devices[0]
-                print("Todays date")
-                print(self.date.strftime(DATE_FORMAT))
                 self.database.insertPushbulletData(
                     self.date.strftime(DATE_FORMAT))
                 push = printDevice.push_note("Weather Update", body)

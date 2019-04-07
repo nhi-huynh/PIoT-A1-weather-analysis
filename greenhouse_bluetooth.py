@@ -6,7 +6,6 @@ import subprocess as sp
 import os
 import bluetooth
 import time
-from pushbullet import Pushbullet
 from datetime import datetime, timedelta
 from defineTimezone import *
 from adjustTemp import *
@@ -20,7 +19,6 @@ class Greenhouse_Bluetooth:
     def __init__(self):
         self.sense = SenseHat()
         self.configFilename = 'config.json'
-        self.pb = Pushbullet(ACCESS_TOKEN)
         self.list = []
 
     def initRange(self):
@@ -33,23 +31,18 @@ class Greenhouse_Bluetooth:
 
     def initPairedDevices(self):
         p = sp.Popen(
-            ["bt-device",
-             "--list"],
-            stdin=sp.PIPE,
-            stdout=sp.PIPE,
-            close_fds=True)
+            ["bt-device", "--list"],
+            stdin=sp.PIPE, stdout=sp.PIPE, close_fds=True)
         (stdout, stdin) = (p.stdout, p.stdin)
         data = stdout.readlines()
         for binary in data:
             string1 = binary.decode('ascii')
-            print(string1)
             start = string1.find('(')
             if start != -1:
                 start += 1
                 end = string1.index(')')
                 length = end - start
                 String = string1[start: start + length]
-                print(String)
                 self.list.append(String)
 
     def send_notification_via_pushbullet(self, title, body):
@@ -84,7 +77,6 @@ class Greenhouse_Bluetooth:
             time.sleep(60)
             time1 = datetime.now(timezone)
             humidity = self.sense.get_humidity()
-            print("Humidity {:.2f}".format(humidity))
 
             t1 = self.sense.get_temperature_from_humidity()
             t2 = self.sense.get_temperature_from_pressure()
@@ -96,11 +88,7 @@ class Greenhouse_Bluetooth:
             t_corr = t - ((t_cpu - t) / 1.5)
             t_corr = get_smooth(t_corr)
             temperature = t_corr
-            print(
-                "t1=%.1f  t2=%.1f  t_cpu=%.1f  t_corr=%.1f  h=%d  p=%d" %
-                (t1, t2, t_cpu, t_corr, round(h), round(p)))
 
-            print("Temperature {:.2f}".format(temperature))
             sendstatus = "All Good"
             temperatureStatus = self.evaluateStatus(
                 "Temperature",
@@ -131,9 +119,6 @@ class Greenhouse_Bluetooth:
                 if macAddress in self.list:
                     minute3 = time3.strftime("%M")
                     time_3 = int(minute3)
-                    print(time_3)
-                    print(time_1)
-                    print(time_1 - time_3)
                     if ((time_1-time_3) >= 2) or ((time_1-time_3) <= (-50)):
                         body = """Currently the temperature is {:.2f}*C and the
                         humidity is {:.2f}% \nStatus Report: {}""" .format(
