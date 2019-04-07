@@ -1,6 +1,3 @@
-# Have you handled file related exceptions in your code?
-# What type of data validation rules have you implemented? : consider the user input angle.
-
 from database import Database
 import logging
 import json
