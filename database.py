@@ -2,7 +2,6 @@ import logging
 import sqlite3
 import sys
 from datetime import datetime, timedelta
-import pandas as pd
 from defineTimezone import *
 
 DATE_FORMAT = "%Y-%m-%d"
@@ -116,54 +115,58 @@ class Database:
         entries = self.getAllValue(command, value)
         return entries
 
-### Functions neccessary for analytics.py
-    def getWeatherDataOn(self, date = datetime.now(timezone).date()):
+# Functions neccessary for analytics.py
+    def getWeatherDataOn(self, date=datetime.now(timezone).date()):
         """
         Receive a date object e.g. datetime(year, month, day).
         If no date received, default date is today.
-        Return all temperature and humidity recorded and time for that day in a form of two dictionaries
+        Return all temperature and humidity recorded and time for that
+            day in a form of two dictionaries
         """
 
-        command = """SELECT time, temperature, humidity FROM sensehat_data WHERE date = '{}' AND time LIKE '%:00:%'""".format(date)
+        command = """SELECT time, temperature, humidity FROM
+                    sensehat_data WHERE date = '{}'""".format(date)
         value = "Weather data for date {}".format(date)
-        temperatureData =  self.getAllValue(command, value)
+        temperatureData = self.getAllValue(command, value)
 
         time = []
         temperature = []
         humidity = []
 
         for entry in temperatureData:
-            time.append(pd.to_datetime(entry[0]).time())
-            temperature.append(round(float(entry[1]), 2))
-            humidity.append(round(float(entry[2]), 2))
+            time = entry[0]
+            temperature = entry[1]
+            humidity = entry[2]
 
         return time, temperature, humidity
 
-    def getAverageWeatherData(self, startDate = None, endDate= None):
+    def getAverageWeatherData(self, startDate=None, endDate=None):
         """
         Receive a date object e.g. datetime(year, month, day).
         If no date received, default date is today.
-        Return all temperature and humidity recorded and time for that day in a form of two dictionaries
+        Return all temperature and humidity recorded and time
+        for that day in a form of two dictionaries
         """
-        date = []
-        avgTemperature = []
-        avgHumidity = []
+        if startDate is None or endDate is None:
+            startDate, endDate = self.getAllValue("""SELECT MIN(date), MAX(date)
+                                from sensehat_data""", """minimum date in
+                                sensehat_data""").fetchone()
 
-        if startDate == None or endDate == None:
-            allDates = self.getAllValue("SELECT MIN(date), MAX(date) from sensehat_data", "Min and max in sensehat_data").fetchone()
-            logging.debug(allDates)
-            startDate = allDates[0]
-            endDate = allDates[-1]
+        if startDate and endDate:
+            command = """SELECT date, AVG(temperature), AVG(humidity)
+                        FROM sensehat_data GROUP BY date"""
+            value = """Average weather data from {} to
+                    {}""".format(startDate, endDate)
+            avgWeatherData = self.getAllValue(command, value)
 
-        
-        command = """SELECT date, AVG(temperature), AVG(humidity) FROM sensehat_data GROUP BY date HAVING date BETWEEN '{}' AND '{}'""".format(startDate, endDate)
-        value = "Average weather data from {} to {}".format(startDate, endDate)
-        avgWeatherData =  self.getAllValue(command, value)
+            date = []
+            avgTemperature = []
+            avgHumidity = []
 
-        for entry in avgWeatherData:
-            date.append(entry[0].strftime(DATE_FORMAT))
-            avgTemperature.append(round(float(entry[1]), 2))
-            avgHumidity.append(round(float(entry[2]), 2))
+            for entry in avgWeatherData:
+                date.append(entry[0].strftime(DATE_FORMAT))
+                avgTemperature.append(round(float(entry[1]), 2))
+                avgHumidity.append(round(float(entry[2]), 2))
 
         return date, avgTemperature, avgHumidity
 
