@@ -170,30 +170,32 @@ class Database:
 
         return date, avgTemperature, avgHumidity
 
-### Functions neccessary for createReport.py)
+# Functions neccessary for createReport.py)
     def getMaxMinDataPerDay(self):
         """
-        Return a dictionary of day that contains 
+        Return a dictionary of day that contains
         """
 
-        command = """SELECT date, MAX(temperature), MIN(temperature), MAX(humidity), MIN(humidity) FROM sensehat_data GROUP BY date HAVING temperature > 0 AND humidity > 0"""
+        command = """SELECT date, MAX(temperature), MIN(temperature),
+        MAX(humidity), MIN(humidity) FROM sensehat_data GROUP BY date
+        HAVING temperature > 0 AND humidity > 0"""
         value = "Max and min weather data for each date"
-        weatherData =  self.getAllValue(command, value)
+        weatherData = self.getAllValue(command, value)
 
         maxDeviationTemperature = {}
         maxDeviationHumidity = {}
         for entry in weatherData:
             date, maxTemp, minTemp, maxHumidity, minHumidity = entry
 
-            maxDeviationTemperature[date] = [round(float(maxTemp), 2), round(float(minTemp), 2)]
-            maxDeviationHumidity[date]  = [round(float(maxHumidity), 2), round(float(minHumidity), 2)]
+            maxDeviationTemperature[date] =
+            [round(float(maxTemp), 2), round(float(minTemp), 2)]
+            maxDeviationHumidity[date] = [
+                round(float(maxHumidity), 2), round(float(minHumidity), 2)]
 
         return maxDeviationTemperature, maxDeviationHumidity
 
 # Functions specifically for pushbullet_data table
     def insertPushbulletData(self, date):
-        print("in database")
-        print(date)
         command = """INSERT INTO pushbullet_data VALUES
                     (DATE('{}'))""".format(date)
         action = "Inserting Pushbullet data"
@@ -207,7 +209,6 @@ class Database:
             timestamp = datetime.now(timezone)
             today = timestamp.date()
             yesterday = today - timedelta(1)
-            print(yesterday.strftime(DATE_FORMAT))
             pushDate = yesterday.strftime(DATE_FORMAT)
             self.insertPushbulletData(pushDate)
 
