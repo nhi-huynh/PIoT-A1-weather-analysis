@@ -43,25 +43,37 @@ class Report:
         self.minHumidity = self.range["min_humidity"]
         self.maxHumidity = self.range["max_humidity"]         
 
-    def evaluateStatus(self, value, min, max, unit):
-        if value < min:
-            different = round(min - value, 2) 
-            status = "{}{} below minimum (Minimum is {} {})".format(str(different), unit, min, unit)
-
-        elif value > max:
-            different = round(value - max, 2)
-            status = "{}{} above maximum (Maximum is {} {})".format(str(different), unit, max, unit)
+    def evaluateStatus(self, value, unit, min = None, max = None):
+        if unit == "*C":
+            item = "temperature"
         else:
-            return ""
+            item = "humidity"
+        if max == None:
+            if value < min:
+                different = round(min - value, 2) 
+                status = "{}{} below minimum {} (Minimum is {} {})".format(str(different), unit, item, min, unit)
+            else:
+                return ""
+        if min == None:
+            if value > max:
+                different = round(value - max, 2)
+                status = "{}{} above maximum {} (Maximum is {} {})".format(str(different), unit, item, max, unit)
+            else:
+                return ""
         return status
 
     def computeReportData(self):
         maxDeviationTemperature, maxDeviationHumidity = self.database.getMaxMinDataPerDay()
 
         for date in maxDeviationTemperature.keys():
+            temperatureStatus = []
+            humidityStatus = []
             reportRow = [date]
-            temperatureStatus = [self.evaluateStatus(temperature, self.minTemp, self.maxTemp, "*C") for temperature in maxDeviationTemperature[date]]
-            humidityStatus = [self.evaluateStatus(humidity, self.minHumidity, self.maxHumidity, "%") for humidity in maxDeviationHumidity[date]]
+
+            temperatureStatus.append(self.evaluateStatus(maxDeviationTemperature[date][0], "*C", max = self.maxTemp))
+            temperatureStatus.append(self.evaluateStatus(maxDeviationTemperature[date][1], "*C", min = self.minTemp))
+            humidityStatus.append(self.evaluateStatus(maxDeviationHumidity[date][0], "%", max = self.maxHumidity))
+            humidityStatus.append(self.evaluateStatus(maxDeviationHumidity[date][1], "%", min = self.minHumidity))
 
             if temperatureStatus != ["", ""] or humidityStatus != ["", ""]:
                 shortStatus = "BAD"
@@ -70,11 +82,9 @@ class Report:
             
             reportRow.append(shortStatus)
 
-            if temperatureStatus != ["", ""]:
-                reportRow += temperatureStatus
-            if humidityStatus != ["", ""]:
-                reportRow += humidityStatus
-                
+            reportRow += [status for status in temperatureStatus if status != ""]
+            reportRow += [status for status in humidityStatus if status != ""]
+
             self.reportData.append(reportRow)
             logging.debug(reportRow)
         
