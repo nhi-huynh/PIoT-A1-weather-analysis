@@ -187,8 +187,8 @@ class Database:
         for entry in weatherData:
             date, maxTemp, minTemp, maxHumidity, minHumidity = entry
 
-            maxDeviationTemperature[date] =
-            [round(float(maxTemp), 2), round(float(minTemp), 2)]
+            maxDeviationTemperature[date] = [
+			round(float(maxTemp), 2), round(float(minTemp), 2)]
             maxDeviationHumidity[date] = [
                 round(float(maxHumidity), 2), round(float(minHumidity), 2)]
 
