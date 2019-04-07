@@ -72,12 +72,12 @@ class Report:
             humidityStatus = []
             reportRow = [date]
 
-            temperatureStatus.append
-            (self.evaluateStatus(
+            temperatureStatus.append(
+            self.evaluateStatus(
                 maxDevTemperature[date][0], "*C", max=self.maxTemp))
             temperatureStatus.append(
-                self.evaluateStatus
-                (maxDevTemperature[date][1], "*C", min=self.minTemp))
+            self.evaluateStatus(
+                maxDevTemperature[date][1], "*C", min=self.minTemp))
             humidityStatus.append(
                 self.evaluateStatus(
                     maxDevHumidity[date][0], "%", max=self.maxHumidity))

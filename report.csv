@@ -1,7 +1,7 @@
 Date,Status
-2019-04-01,BAD,26.59% below minimum humidity (Minimum is 50 %)
-2019-04-02,BAD,27.44% below minimum humidity (Minimum is 50 %)
-2019-04-03,BAD,28.64% below minimum humidity (Minimum is 50 %)
-2019-04-04,BAD,27.97% below minimum humidity (Minimum is 50 %)
-2019-04-05,BAD,21.63*C below minimum temperature (Minimum is 20 *C),29.79% below minimum humidity (Minimum is 50 %)
-2019-04-06,BAD,18.94*C below minimum temperature (Minimum is 20 *C),31.82% below minimum humidity (Minimum is 50 %)
+2019-04-01,BAD,18.73*C above maximum temperature (Maximum is 30 *C),26.59% below minimum humidity (Minimum is 50 %)
+2019-04-02,BAD,19.16*C above maximum temperature (Maximum is 30 *C),27.44% below minimum humidity (Minimum is 50 %)
+2019-04-03,BAD,21.49*C above maximum temperature (Maximum is 30 *C),28.64% below minimum humidity (Minimum is 50 %)
+2019-04-04,BAD,17.85*C above maximum temperature (Maximum is 30 *C),27.97% below minimum humidity (Minimum is 50 %)
+2019-04-05,BAD,12.19*C above maximum temperature (Maximum is 30 *C),21.63*C below minimum temperature (Minimum is 20 *C),29.79% below minimum humidity (Minimum is 50 %)
+2019-04-06,BAD,13.02*C above maximum temperature (Maximum is 30 *C),18.94*C below minimum temperature (Minimum is 20 *C),31.82% below minimum humidity (Minimum is 50 %)
