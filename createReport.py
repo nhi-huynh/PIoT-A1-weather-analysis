@@ -56,38 +56,29 @@ class Report:
         return status
 
     def computeReportData(self):
-        for entry in self.database.readSenseHatData():
-            date = entry[0]
-            temperature = entry[2]
-            humidity = entry[3]
+        maxDeviationTemperature, maxDeviationHumidity = self.database.getMaxMinDataPerDay()
 
-            temperatureStatus = ""
-            humidityStatus = ""
-            shortStatus = ""    # "OK" or "BAD"
+        for date in maxDeviationTemperature.keys():
+            reportRow = [date]
+            temperatureStatus = [self.evaluateStatus(temperature, self.minTemp, self.maxTemp, "*C") for temperature in maxDeviationTemperature[date]]
+            humidityStatus = [self.evaluateStatus(humidity, self.minHumidity, self.maxHumidity, "%") for humidity in maxDeviationHumidity[date]]
 
-            reportData = [date]
-
-            logging.debug('Data read from database is as follows')
-            logging.debug('Date: {}'.format(date))
-            logging.debug('Temperature: {0:0.1f} *C'.format(temperature))
-            logging.debug('Humidity: {0:0.0f} %'.format(humidity))
-
-            temperatureStatus = self.evaluateStatus(float(temperature), self.minTemp, self.maxTemp, "*C")
-            humidityStatus = self.evaluateStatus(float(humidity), self.minHumidity, self.maxHumidity, "%")
-
-            if temperatureStatus or humidityStatus:
+            if temperatureStatus != ["", ""] or humidityStatus != ["", ""]:
                 shortStatus = "BAD"
             else:
                 shortStatus = "OK"
-            reportData.append(shortStatus)
+            
+            reportRow.append(shortStatus)
 
-            if temperatureStatus:
-                reportData.append(temperatureStatus)
-            if humidityStatus:
-                reportData.append(humidityStatus)
-
-            self.reportData.append(reportData)
-            logging.debug(reportData)
+            if temperatureStatus != ["", ""]:
+                reportRow += temperatureStatus
+            if humidityStatus != ["", ""]:
+                reportRow += humidityStatus
+                
+            self.reportData.append(reportRow)
+            logging.debug(reportRow)
+        
+        
 
     def writeFile(self):
         logging.debug("Full report data after evaluating: {}".format(self.reportData))

@@ -167,6 +167,26 @@ class Database:
 
         return date, avgTemperature, avgHumidity
 
+### Functions neccessary for createReport.py)
+    def getMaxMinDataPerDay(self):
+        """
+        Return a dictionary of day that contains 
+        """
+
+        command = """SELECT date, MAX(temperature), MIN(temperature), MAX(humidity), MIN(humidity) FROM sensehat_data GROUP BY date HAVING temperature > 0 AND humidity > 0"""
+        value = "Max and min weather data for each date"
+        weatherData =  self.getAllValue(command, value)
+
+        maxDeviationTemperature = {}
+        maxDeviationHumidity = {}
+        for entry in weatherData:
+            date, maxTemp, minTemp, maxHumidity, minHumidity = entry
+
+            maxDeviationTemperature[date] = [round(float(maxTemp), 2), round(float(minTemp), 2)]
+            maxDeviationHumidity[date]  = [round(float(maxHumidity), 2), round(float(minHumidity), 2)]
+
+        return maxDeviationTemperature, maxDeviationHumidity
+
 # Functions specifically for pushbullet_data table
     def insertPushbulletData(self, date):
         print("in database")
