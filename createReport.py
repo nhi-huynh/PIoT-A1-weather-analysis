@@ -11,7 +11,8 @@ class Report:
 
     def getReportName(self):
         validfilename = False
-        print("What would you like to name the report file? \nEnter the name only, the file extension will be added automatically ")
+        print("""What would you like to name the report file? \n
+        Enter the name only, the file extension will be added automatically""")
         while validfilename is False:
             filename = input()
             # check file name contains no spaces or special characters
@@ -28,7 +29,7 @@ class Report:
 
     def __init__(self):
         self.configFilename = 'config.json'
-        self.reportFilename = 'report.csv'  #self.getReportName()
+        self.reportFilename = self.getReportName()
         self.databaseName = 'VirtualSenseHat.db'
 
         self.database = Database(self.databaseName)
@@ -41,75 +42,80 @@ class Report:
         self.minTemp = self.range["min_temperature"]
         self.maxTemp = self.range["max_temperature"]
         self.minHumidity = self.range["min_humidity"]
-        self.maxHumidity = self.range["max_humidity"]         
+        self.maxHumidity = self.range["max_humidity"]
 
-    def evaluateStatus(self, value, unit, min = None, max = None):
+    def evaluateStatus(self, value, unit, min=None, max=None):
         if unit == "*C":
             item = "temperature"
         else:
             item = "humidity"
-        if max == None:
+        if max is None:
             if value < min:
-                different = round(min - value, 2) 
-                status = "{}{} below minimum {} (Minimum is {} {})".format(str(different), unit, item, min, unit)
+                different = round(min - value, 2)
+                status = "{}{} below minimum {} (Minimum is {} {})".format(
+                    str(different), unit, item, min, unit)
             else:
                 return ""
-        if min == None:
+        if min is None:
             if value > max:
                 different = round(value - max, 2)
-                status = "{}{} above maximum {} (Maximum is {} {})".format(str(different), unit, item, max, unit)
+                status = "{}{} above maximum {} (Maximum is {} {})".format(
+                    str(different), unit, item, max, unit)
             else:
                 return ""
         return status
 
     def computeReportData(self):
-        maxDeviationTemperature, maxDeviationHumidity = self.database.getMaxMinDataPerDay()
+        maxDeviationTemperature,
+        maxDeviationHumidity = self.database.getMaxMinDataPerDay()
 
         for date in maxDeviationTemperature.keys():
             temperatureStatus = []
             humidityStatus = []
             reportRow = [date]
 
-            temperatureStatus.append(self.evaluateStatus(maxDeviationTemperature[date][0], "*C", max = self.maxTemp))
-            temperatureStatus.append(self.evaluateStatus(maxDeviationTemperature[date][1], "*C", min = self.minTemp))
-            humidityStatus.append(self.evaluateStatus(maxDeviationHumidity[date][0], "%", max = self.maxHumidity))
-            humidityStatus.append(self.evaluateStatus(maxDeviationHumidity[date][1], "%", min = self.minHumidity))
+            temperatureStatus.append
+            (self.evaluateStatus(
+                maxDeviationTemperature[date][0], "*C", max=self.maxTemp))
+            temperatureStatus.append(
+                self.evaluateStatus
+                (maxDeviationTemperature[date][1], "*C", min=self.minTemp))
+            humidityStatus.append(
+                self.evaluateStatus(
+                    maxDeviationHumidity[date][0], "%", max=self.maxHumidity))
+            humidityStatus.append(
+                self.evaluateStatus(
+                    maxDeviationHumidity[date][1], "%", min=self.minHumidity))
 
             if temperatureStatus != ["", ""] or humidityStatus != ["", ""]:
                 shortStatus = "BAD"
             else:
                 shortStatus = "OK"
-            
+
             reportRow.append(shortStatus)
 
-            reportRow += [status for status in temperatureStatus if status != ""]
-            reportRow += [status for status in humidityStatus if status != ""]
+            reportRow += [
+                status for status in temperatureStatus if status != ""]
+            reportRow += [
+                status for status in humidityStatus if status != ""]
 
             self.reportData.append(reportRow)
             logging.debug(reportRow)
-        
-        
 
     def writeFile(self):
-        logging.debug("Full report data after evaluating: {}".format(self.reportData))
+        logging.debug("Full report data after evaluating: {}".format(
+            self.reportData))
         with open(self.reportFilename, 'w', newline='') as csvFile:
             writer = csv.writer(csvFile)
             writer.writerows(self.reportData)
         csvFile.close()
-        logging.debug("All report data is written to {}".format(self.reportFilename))
-
-    def printFile(self):     # for debugging
-        with open(self.reportFilename, 'r') as csvFile:
-            reader = csv.reader(csvFile)
-            for row in reader:
-                logging.debug(row)
-        csvFile.close()
+        logging.debug("All report data is written to {}".format(
+            self.reportFilename))
 
     def generateReport(self):
         self.initRange()
         self.computeReportData()
         self.writeFile()
-        self.printFile()
 
 report = Report()
 report.generateReport()
