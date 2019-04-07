@@ -4,7 +4,7 @@ containing 1,440 readings. With these visualisation graphs we want to be able to
 at the data but also analyze patterns and be able to display data for a large period 
 of time. For these reasons we have chosen a Line Graph for daily representations and 
 a Bar graph for weekly average representations
- 
+
 2) What should be represented in the above graph? Why did you make that decision?
 For the Line graph we have chosen to display 24 hours of data so anyone veiwing the 
 graph could see the way the temperature changed over a period of 24 hours. While for
